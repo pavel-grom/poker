@@ -1,0 +1,21 @@
+{
+    "name": "poker",
+    "description": "poker",
+    "type": "new",
+    "license": "mid",
+    "authors": [
+        {
+            "name": "pavel-grom",
+            "email": "dejavugromrock@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
