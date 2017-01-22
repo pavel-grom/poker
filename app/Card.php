@@ -80,6 +80,10 @@ class Card
     
     static public function create($priority, $suit)
     {
+        if (!array_search($priority, self::$namedPrioritiesStatic)
+            || !array_search($suit, self::$namedSuitesStatic)) {
+            throw new \Exception('Wrong card');
+        }
         return new self(
                 array_search($priority, self::$namedPrioritiesStatic), 
                 array_search($suit, self::$namedSuitesStatic)

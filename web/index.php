@@ -18,37 +18,32 @@ use App\Combinations\Combination;
 use App\Player;
 
 $table = new Table;
-//$cas = new Player('Cas');
-//$sam = new Player('Sam');
-//$dean = new Player('Dean');
-//
-//$cas->cards = [
-//    new Card(4, 1), 
-//    new Card(12, 4),
-//];
-//$sam->cards = [
-//    new Card(8, 2), 
-//    new Card(12, 3),
-//];
-//$dean->cards = [
-//    new Card(1, 1), 
-//    new Card(3, 2),
-//];
-//$table->tableCards = [
-//    new Card(2, 1), 
-//    new Card(7, 2),
-//    new Card(7, 3), 
-//    new Card(11, 4),
-//    new Card(11, 2), 
-//];
-//$table->addPlayers([
-//    $cas, 
-//    $sam, 
-//    $dean
-//]);
-
-//$card = Card::create('A', 'Spade');
-//dd($card);
+//for manualy dealing cards to players and table don`t use the $table->dealTheCards() method
+/*
+$cas = new Player('Cas');
+$sam = new Player('Sam');
+$cas->cards = [
+    Card::create('7', 'Diamond'), 
+    Card::create('3', 'Spade'),
+];
+$sam->cards = [
+    Card::create('5', 'Heart'), 
+    Card::create('8', 'Diamond'),
+];
+$table->tableCards = [
+    Card::create('A', 'Club'), 
+    Card::create('K', 'Diamond'),
+    Card::create('10', 'Spade'), 
+    Card::create('Q', 'Spade'),
+    Card::create('J', 'Spade'), 
+];
+$table->addPlayers([
+    $cas, 
+    $sam, 
+]);
+$table->computeCombinations();
+$table->getWinner();
+*/
 $table->addPlayers([
     new Player('Cas'), 
     new Player('Sam'), 
@@ -56,11 +51,9 @@ $table->addPlayers([
     new Player('Crowley'), 
     new Player('Lucifer'),
 ]);
-$table->dealTheCards();
+$table->dealTheCards(); // deal random cards to all players and table
 $table->computeCombinations();
 $table->getWinner();
-
-//dd($table->winners);
 $view = require_once '../app/view.php';
 
 
