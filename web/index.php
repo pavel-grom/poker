@@ -11,3 +11,4 @@ function dd($wtf, $exit = 1) {
         exit();
     }
 }
+
