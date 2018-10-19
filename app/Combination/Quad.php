@@ -15,4 +15,18 @@ class Quad extends CombinationAbstract
      * @const int WEIGHT
      * */
     public const WEIGHT = 8;
+
+    /**
+     * @return int
+     */
+    public function getTotalWeight(): int
+    {
+        $totalWeight = self::WEIGHT;
+
+        $totalWeight .= $this->onlyCombinationCards->random()->getWeight();
+
+        $totalWeight .= '00000000';
+
+        return (int) $totalWeight;
+    }
 }
