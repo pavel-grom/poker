@@ -19,10 +19,11 @@ class DeckOfCards implements HasCardsInterface
 
     /**
      * DeckOfCards constructor.
+     * @param callable|null $randomizer - function(int[] $cardsKeys): int
      */
-    public function __construct()
+    public function __construct(?callable $randomizer = null)
     {
-        $this->fill();
+        $this->fill($randomizer);
     }
 
     /**
@@ -64,8 +65,9 @@ class DeckOfCards implements HasCardsInterface
 
     /**
      *  Fill the deck with cards
+     * @param callable|null $randomizer - function(int[] $cardsKeys): int
      */
-    private function fill(): void
+    private function fill(?callable $randomizer = null): void
     {
         $cards = [];
 
@@ -75,6 +77,6 @@ class DeckOfCards implements HasCardsInterface
             }
         }
 
-        $this->cards = new CardsCollection($cards);
+        $this->cards = new CardsCollection($cards, 0, 'ArrayIterator', $randomizer);
     }
 }

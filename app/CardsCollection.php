@@ -19,12 +19,20 @@ class CardsCollection extends ArrayObject
     private $cardsIndexes = [];
 
     /**
+     * Randomize callback for dealing cards
+     *
+     * @var callable|null
+     */
+    private $randomizer;
+
+    /**
      * CardsCollection constructor.
      * @param array $input
      * @param int $flags
      * @param string $iterator_class
+     * @param callable|null $randomizer - function(int[] $cardsKeys): int
      */
-    public function __construct($input = [], $flags = 0, $iterator_class = "ArrayIterator")
+    public function __construct($input = [], $flags = 0, $iterator_class = "ArrayIterator", ?callable $randomizer = null)
     {
         foreach ($input as $item) {
             if (!($item instanceof Card)) {
@@ -35,6 +43,7 @@ class CardsCollection extends ArrayObject
         parent::__construct($input, $flags, $iterator_class);
 
         $this->indexCards();
+        $this->randomizer = $randomizer;
     }
 
     /**
@@ -195,7 +204,15 @@ class CardsCollection extends ArrayObject
      */
     public function getRandomCard(): Card
     {
-        $randomCardKey = array_rand((array) $this);
+        if (!$randomizer = $this->randomizer) {
+            $randomCardKey = array_rand((array) $this);
+        } else {
+            $cardsKeys = array_keys((array) $this);
+            $randomCardKey = $randomizer($cardsKeys);
+            if (!in_array($randomCardKey, $cardsKeys, true)) {
+                throw new GameLogicException('Randomizer callback returns wrong value');
+            }
+        }
 
         $card = $this[$randomCardKey];
 

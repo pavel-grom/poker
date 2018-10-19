@@ -29,13 +29,19 @@ class Table implements HasCardsInterface, HasCombinationInterface
      * @var DeckOfCards
      * */
     private $deckOfCards;
+    /**
+     * @var callable|null
+     */
+    private $randomizer;
 
     /**
      * Table constructor.
+     * @param callable|null $randomizer - function(int[] $cardsKeys): int
      */
-    public function __construct()
+    public function __construct(?callable $randomizer = null)
     {
-        $this->deckOfCards = new DeckOfCards;
+        $this->deckOfCards = new DeckOfCards($randomizer);
+        $this->randomizer = $randomizer;
     }
 
     /**
