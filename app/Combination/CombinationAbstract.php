@@ -9,53 +9,78 @@
 namespace App\Combination;
 
 
-use App\Card;
-use App\GameLogicException;
+use App\CardsCollection;
 use App\Interfaces\CombinationInterface;
-use App\Interfaces\HasCardsInterface;
-use App\Traits\HasCardsTrait;
 
-abstract class CombinationAbstract implements CombinationInterface, HasCardsInterface
+abstract class CombinationAbstract implements CombinationInterface
 {
-    use HasCardsTrait{
-        addCard as addCardTrait;
-    }
-
     /**
-     * @const int WEIGHT
+     * @const int
      * */
     public const WEIGHT = 1;
 
     /**
      * Combination can have max 5 cards
      *
-     * @const int MAX_CARDS_COUNT
+     * @const int
      * */
     protected const MAX_CARDS_COUNT = 5;
 
     /**
-     * @return int
+     * @var CardsCollection
      */
-    public function getTotalWeight(): int
+    protected $playerCards;
+
+    /**
+     * @var CardsCollection
+     */
+    protected $cards;
+
+    /**
+     * @var CardsCollection
+     */
+    protected $onlyCombinationCards;
+
+    /**
+     * @var CardsCollection
+     */
+    protected $onlyNotCombinationCards;
+
+    /**
+     * CombinationAbstract constructor.
+     * @param CardsCollection $cards Combination cards
+     * @param CardsCollection $playerCards
+     * @param CardsCollection|null $onlyCombinationCards
+     */
+    public function __construct(CardsCollection $cards, CardsCollection $playerCards, ?CardsCollection $onlyCombinationCards = null)
     {
-        $totalWeight = self::WEIGHT;
-
-        foreach ($this->cards as $card) {
-            $totalWeight .= $card->getWeight();
-        }
-
-        return (int) $totalWeight;
+        $this->cards = $cards;
+        $this->playerCards = $playerCards;
+        $this->onlyCombinationCards = $onlyCombinationCards ?? $cards;
+        $this->onlyNotCombinationCards = $this->cards->diff($this->onlyCombinationCards);
     }
 
     /**
-     * @param Card $card
+     * @return CardsCollection
      */
-    public function addCard(Card $card): void
+    public function getCards(): CardsCollection
     {
-        if (count($this->cards) === self::MAX_CARDS_COUNT) {
-            throw new GameLogicException('Combination can have max 5 cards');
-        }
+        return $this->cards ?? new CardsCollection();
+    }
 
-        $this->addCardTrait($card);
+    /**
+     * @return CardsCollection
+     */
+    public function getOnlyCombinationCards(): CardsCollection
+    {
+        return $this->onlyCombinationCards;
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getOnlyNotCombinationCards(): CardsCollection
+    {
+        return $this->onlyNotCombinationCards;
     }
 }

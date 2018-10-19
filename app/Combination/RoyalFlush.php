@@ -15,4 +15,16 @@ class RoyalFlush extends CombinationAbstract
      * @const int WEIGHT
      * */
     public const WEIGHT = 10;
+
+    /**
+     * @return int
+     */
+    public function getTotalWeight(): int
+    {
+        $totalWeight = self::WEIGHT;
+
+        $totalWeight .= '0000000000';
+
+        return (int) $totalWeight;
+    }
 }

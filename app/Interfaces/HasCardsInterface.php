@@ -10,14 +10,14 @@ namespace App\Interfaces;
 
 
 use App\Card;
-use App\GameLogicException;
+use App\CardsCollection;
 
 interface HasCardsInterface
 {
     /**
-     * @return Card[]
+     * @return CardsCollection
      */
-    public function getCards(): array;
+    public function getCards(): CardsCollection;
 
     /**
      * @param Card $card

@@ -10,20 +10,21 @@ namespace App\Traits;
 
 
 use App\Card;
+use App\CardsCollection;
 
 trait HasCardsTrait
 {
     /**
-     * @var Card[] $cards
+     * @var CardsCollection $cards
      * */
-    private $cards = [];
+    private $cards;
 
     /**
-     * @return Card[]
+     * @return CardsCollection
      */
-    public function getCards(): array
+    public function getCards(): CardsCollection
     {
-        return $this->cards;
+        return $this->cards ?? new CardsCollection([]);
     }
 
     /**
@@ -31,6 +32,9 @@ trait HasCardsTrait
      */
     public function addCard(Card $card): void
     {
+        if (!($this->cards instanceof CardsCollection)) {
+            $this->cards = new CardsCollection($this->cards ?? []);
+        }
         $this->cards[] = $card;
     }
 }

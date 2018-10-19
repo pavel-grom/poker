@@ -9,6 +9,7 @@
 namespace App;
 
 
+use App\Exceptions\GameLogicException;
 use App\Interfaces\HasCardsInterface;
 use App\Traits\HasCardsTrait;
 
@@ -17,87 +18,48 @@ class DeckOfCards implements HasCardsInterface
     use HasCardsTrait;
 
     /**
-     * array $cardsIndexes
-     * */
-    private $cardsIndexes = [];
-
-    /**
      * DeckOfCards constructor.
      */
     public function __construct()
     {
         $this->fill();
-        $this->indexCards();
     }
 
     /**
      * Get card and remove its from deck
      *
-     *
-     * @param Card|null $specificCard
+     * @param int $priority
+     * @param int $suit
      * @return Card
-     * @throws GameLogicException
      */
-    public function dealCard(?Card $specificCard = null): Card
+    public function dealCard(int $priority, int $suit): Card
     {
-        if (count($this->cards) === 0) {
+        if ($this->cards->count() === 0) {
             throw new GameLogicException('Deck of cards is empty');
         }
 
-        if (!$specificCard) {
-            $cardsKeys = array_keys($this->cards);
-            shuffle($cardsKeys);
-            $randomCardKey = array_rand($cardsKeys);
-
-            $card = $this->cards[$randomCardKey];
-            unset($this->cards[$randomCardKey]);
-
-            return $card;
-        }
-
-        $cardKey = $this->findCard($specificCard);
-        $card = $this->cards[$cardKey];
-        unset($this->cards[$cardKey]);
-
-        return $card;
+        return $this->cards->getCard($priority, $suit);
     }
 
     /**
-     * Find card and return its key
+     * Get randoms cards and remove them from deck
      *
-     * @param Card $card
-     * @return int
+     * @param int $count
+     * @return CardsCollection
      */
-    private function findCard(Card $card): int
+    public function dealRandomCards(int $count = 1): CardsCollection
     {
-        if (!isset($this->cardsIndexes[$this->getCardIndexKey($card)])) {
-            throw new GameLogicException('Unknown card index');
+        if ($this->cards->count() === 0) {
+            throw new GameLogicException('Deck of cards is empty');
         }
 
-        return $this->cardsIndexes[$this->getCardIndexKey($card)];
-    }
+        $cards = [];
 
-    /**
-     * Index cards for more quickly search
-     */
-    private function indexCards(): void
-    {
-        if (empty($this->cards)) {
-            throw new GameLogicException('No cards to index. First fill cards');
+        for ($i = 0; $i < $count; $i++) {
+            $cards[] = $this->cards->getRandomCard();
         }
 
-        foreach ($this->cards as $key => $card) {
-            $this->cardsIndexes[$this->getCardIndexKey($card)] = $key;
-        }
-    }
-
-    /**
-     * @param Card $card
-     * @return string
-     */
-    private function getCardIndexKey(Card $card): string
-    {
-        return "{$card->getPriority()}|{$card->getSuit()}";
+        return new CardsCollection($cards);
     }
 
     /**
@@ -105,10 +67,14 @@ class DeckOfCards implements HasCardsInterface
      */
     private function fill(): void
     {
+        $cards = [];
+
         foreach (range(1, 13) as $priority) {
             foreach (range(1, 4) as $suit) {
-                $this->cards[] = new Card($priority, $suit);
+                $cards[] = Card::make($priority, $suit);
             }
         }
+
+        $this->cards = new CardsCollection($cards);
     }
 }

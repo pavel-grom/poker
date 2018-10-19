@@ -9,6 +9,8 @@
 namespace App;
 
 
+use App\Exceptions\GameLogicException;
+
 class Card
 {
     /**
@@ -33,22 +35,18 @@ class Card
     }
 
     /**
-     * @param string $priority
-     * @param string $suit
+     * @param int $priority
+     * @param int $suit
      * @return Card
      */
-    public static function makeByName(string $priority, string $suit): self
+    public static function make(int $priority, int $suit)
     {
-        $config = Config::getInstance();
-
-        $prioritiesMapFlip = array_flip($config->get('cards_priorities_map'));
-        $suitesMapFlip = array_flip($config->get('cards_suites_map'));
-
-        $priority = $prioritiesMapFlip[$priority] ?? null;
-        $suit = $suitesMapFlip[$suit] ?? null;
-
-        if (is_null($priority) || is_null($suit)) {
-            throw new GameLogicException('Unknown card');
+        if (
+            !in_array($priority, range(1, 13), true)
+            ||
+            !in_array($suit, range(1, 4), true)
+        ) {
+            throw new GameLogicException('Unknown card - ' . $priority . '|' . $suit);
         }
 
         return new self($priority, $suit);
@@ -78,5 +76,13 @@ class Card
         return $this->priority >= 10
             ? (string) $this->priority
             : "0{$this->priority}";
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getPriority() . '|' . $this->getSuit();
     }
 }

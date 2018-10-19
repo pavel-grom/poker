@@ -9,13 +9,13 @@
 namespace App;
 
 
-use App\Interfaces\HasCardsInterface;
 use App\Interfaces\PlayerInterface;
 use App\Traits\HasCardsTrait;
+use App\Traits\HasCombinationTrait;
 
-class Player implements HasCardsInterface, PlayerInterface
+class Player implements PlayerInterface
 {
-    use HasCardsTrait;
+    use HasCardsTrait, HasCombinationTrait;
 
     /**
      * @var string $name

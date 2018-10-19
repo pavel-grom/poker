@@ -9,7 +9,7 @@
 namespace App\Interfaces;
 
 
-interface PlayerInterface
+interface PlayerInterface extends HasCardsInterface, HasCombinationInterface
 {
     /**
      * @return string

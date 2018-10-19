@@ -9,10 +9,22 @@
 namespace App\Interfaces;
 
 
+use App\CardsCollection;
+
 interface CombinationInterface
 {
     /**
      * @return int
      */
     public function getTotalWeight(): int;
+
+    /**
+     * @return CardsCollection
+     */
+    public function getOnlyCombinationCards(): CardsCollection;
+
+    /**
+     * @return CardsCollection
+     */
+    public function getOnlyNotCombinationCards(): CardsCollection;
 }

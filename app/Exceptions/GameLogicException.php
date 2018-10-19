@@ -6,7 +6,7 @@
  * Time: 11:39
  */
 
-namespace App;
+namespace App\Exceptions;
 
 
 class GameLogicException extends \LogicException
