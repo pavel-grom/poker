@@ -9,7 +9,9 @@
 namespace App\Combination;
 
 
-class FullHouse extends CombinationAbstract
+use App\Interfaces\TwoPriorityOrientedCombinationInterface;
+
+class FullHouse extends CombinationAbstract implements TwoPriorityOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -33,5 +35,21 @@ class FullHouse extends CombinationAbstract
         $totalWeight .= '000000';
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->onlyCombinationCards->sortByPriority(true)[0]->getPriority();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSecondPriority(): int
+    {
+        return $this->onlyCombinationCards->sortByPriority()[0]->getPriority();
     }
 }

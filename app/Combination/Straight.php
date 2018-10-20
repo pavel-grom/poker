@@ -10,8 +10,9 @@ namespace App\Combination;
 
 
 use App\Card;
+use App\Interfaces\OnePriorityOrientedCombinationInterface;
 
-class Straight extends CombinationAbstract
+class Straight extends CombinationAbstract implements OnePriorityOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -26,7 +27,7 @@ class Straight extends CombinationAbstract
         $totalWeight = self::WEIGHT;
 
         $cards = $this->cards->map(function(Card $card){
-            return $card->getPriority();
+            return $card->getWeight();
         });
         rsort($cards);
 
@@ -34,5 +35,13 @@ class Straight extends CombinationAbstract
         $totalWeight .= '00000000';
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->onlyCombinationCards->sortByPriority(true)[0]->getPriority();
     }
 }

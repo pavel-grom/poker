@@ -10,8 +10,9 @@ namespace App\Combination;
 
 
 use App\Card;
+use App\Interfaces\SuitOrientedCombinationInterface;
 
-class Flush extends CombinationAbstract
+class Flush extends CombinationAbstract implements SuitOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -34,5 +35,13 @@ class Flush extends CombinationAbstract
         $totalWeight .= '00000000';
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSuit(): int
+    {
+        return $this->cards[0]->getSuit();
     }
 }

@@ -9,7 +9,9 @@
 namespace App\Combination;
 
 
-class RoyalFlush extends CombinationAbstract
+use App\Interfaces\OnePriorityOrientedCombinationInterface;
+
+class RoyalFlush extends CombinationAbstract implements OnePriorityOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -26,5 +28,13 @@ class RoyalFlush extends CombinationAbstract
         $totalWeight .= '0000000000';
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->onlyCombinationCards->sortByPriority(true)[0]->getPriority();
     }
 }

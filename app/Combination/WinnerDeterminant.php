@@ -51,7 +51,6 @@ class WinnerDeterminant
     {
         $weights = [];
 
-        /** @var PlayerInterface[] $players */
         $players = $this->table->getPlayers();
 
         foreach ($players as $name => $player) {

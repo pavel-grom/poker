@@ -9,7 +9,12 @@
 namespace App\Combination;
 
 
-class TwoPairs extends CombinationAbstract
+use App\Card;
+use App\CardsCollection;
+use App\Interfaces\HasKickerInterface;
+use App\Interfaces\TwoPriorityOrientedCombinationInterface;
+
+class TwoPairs extends CombinationAbstract implements HasKickerInterface, TwoPriorityOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -43,5 +48,37 @@ class TwoPairs extends CombinationAbstract
         }
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return Card|null
+     */
+    public function getKicker(): ?Card
+    {
+        return $this->playerOnlyNotCombinationCards[0] ?? null;
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getSortedCards(): CardsCollection
+    {
+        return $this->onlyCombinationCards->merge($this->onlyNotCombinationCards);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->onlyCombinationCards->sortByPriority(true)[0]->getPriority();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSecondPriority(): int
+    {
+        return $this->onlyCombinationCards->sortByPriority()[0]->getPriority();
     }
 }

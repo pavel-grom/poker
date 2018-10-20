@@ -71,11 +71,12 @@ class CardsCollection extends ArrayObject
 
     /**
      * @param callable $callback
+     * @param int $flag
      * @return array
      */
-    public function filter(callable $callback): array
+    public function filter(callable $callback, int $flag = 0): array
     {
-        return array_filter((array) $this, $callback);
+        return array_filter((array) $this, $callback, $flag);
     }
 
     /**
@@ -85,6 +86,15 @@ class CardsCollection extends ArrayObject
     public function diff(self $cardsCollection): self
     {
         return new self(array_diff((array) $this, (array) $cardsCollection));
+    }
+
+    /**
+     * @param CardsCollection $cardsCollection
+     * @return CardsCollection
+     */
+    public function intersect(self $cardsCollection): self
+    {
+        return new self(array_intersect((array) $this, (array) $cardsCollection));
     }
 
     /**

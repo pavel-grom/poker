@@ -10,8 +10,10 @@ namespace App\Combination;
 
 
 use App\Card;
+use App\Interfaces\OnePriorityOrientedCombinationInterface;
+use App\Interfaces\SuitOrientedCombinationInterface;
 
-class StraightFlush extends CombinationAbstract
+class StraightFlush extends CombinationAbstract implements OnePriorityOrientedCombinationInterface, SuitOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -26,7 +28,7 @@ class StraightFlush extends CombinationAbstract
         $totalWeight = self::WEIGHT;
 
         $cards = $this->cards->map(function(Card $card){
-            return $card->getPriority();
+            return $card->getWeight();
         });
         rsort($cards);
 
@@ -34,5 +36,21 @@ class StraightFlush extends CombinationAbstract
         $totalWeight .= '00000000';
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->onlyCombinationCards->sortByPriority(true)[0]->getPriority();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSuit(): int
+    {
+        return $this->cards[0]->getSuit();
     }
 }

@@ -15,18 +15,6 @@ use App\Interfaces\CombinationInterface;
 abstract class CombinationAbstract implements CombinationInterface
 {
     /**
-     * @const int
-     * */
-    public const WEIGHT = 1;
-
-    /**
-     * Combination can have max 5 cards
-     *
-     * @const int
-     * */
-    protected const MAX_CARDS_COUNT = 5;
-
-    /**
      * @var CardsCollection
      */
     protected $playerCards;
@@ -47,6 +35,16 @@ abstract class CombinationAbstract implements CombinationInterface
     protected $onlyNotCombinationCards;
 
     /**
+     * @var CardsCollection
+     */
+    protected $playerOnlyCombinationCards;
+
+    /**
+     * @var CardsCollection
+     */
+    protected $playerOnlyNotCombinationCards;
+
+    /**
      * CombinationAbstract constructor.
      * @param CardsCollection $cards Combination cards
      * @param CardsCollection $playerCards
@@ -54,10 +52,12 @@ abstract class CombinationAbstract implements CombinationInterface
      */
     public function __construct(CardsCollection $cards, CardsCollection $playerCards, ?CardsCollection $onlyCombinationCards = null)
     {
-        $this->cards = $cards;
-        $this->playerCards = $playerCards;
-        $this->onlyCombinationCards = $onlyCombinationCards ?? $cards;
-        $this->onlyNotCombinationCards = $this->cards->diff($this->onlyCombinationCards);
+        $this->cards = $cards->values();
+        $this->playerCards = $playerCards->values();
+        $this->onlyCombinationCards = ($onlyCombinationCards ?? $cards)->values();
+        $this->onlyNotCombinationCards = $this->cards->diff($this->onlyCombinationCards)->values();
+        $this->playerOnlyCombinationCards = $this->playerCards->intersect($this->onlyCombinationCards)->values();
+        $this->playerOnlyNotCombinationCards = $this->playerCards->intersect($this->onlyNotCombinationCards)->values();
     }
 
     /**
@@ -82,5 +82,37 @@ abstract class CombinationAbstract implements CombinationInterface
     public function getOnlyNotCombinationCards(): CardsCollection
     {
         return $this->onlyNotCombinationCards;
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getPlayerCards(): CardsCollection
+    {
+        return $this->playerCards;
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getSortedCards(): CardsCollection
+    {
+        return $this->cards->sortByPriority(true);
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getPlayerOnlyCombinationCards(): CardsCollection
+    {
+        return $this->playerOnlyCombinationCards;
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getPlayerOnlyNotCombinationCards(): CardsCollection
+    {
+        return $this->playerOnlyNotCombinationCards;
     }
 }

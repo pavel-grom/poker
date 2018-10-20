@@ -134,8 +134,7 @@ class CombinationDeterminant
                     5
                 )
             ),
-            $this->playerCards,
-            $this->cards->getCardsByPriorities(max($this->priorities))
+            $this->playerCards
         );
     }
 
@@ -259,15 +258,21 @@ class CombinationDeterminant
 
         $cards = clone $this->cards;
 
+        $unsetKeys = [];
+
         foreach ($cards as $key => $card) {
             if (isset($cards[$key+1])) {
                 if ($cards[$key]->getPriority() === $cards[$key+1]->getPriority()) {
-                    unset($cards[$key]);
+                    $unsetKeys[] = $key;
                 }
             }
         }
 
-        $cards = $cards->values();
+        $cards = $cards->filter(function(int $key) use ($unsetKeys) {
+            return !in_array($key, $unsetKeys, true);
+        }, ARRAY_FILTER_USE_KEY);
+
+        $cards = (new CardsCollection($cards))->values();
         $count = $cards->count();
 
         if (

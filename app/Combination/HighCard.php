@@ -9,7 +9,11 @@
 namespace App\Combination;
 
 
-class HighCard extends CombinationAbstract
+use App\Card;
+use App\Interfaces\HasTwoKickersInterface;
+use App\Interfaces\OnePriorityOrientedCombinationInterface;
+
+class HighCard extends CombinationAbstract implements HasTwoKickersInterface, OnePriorityOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -29,12 +33,34 @@ class HighCard extends CombinationAbstract
 
         $missedCardsCount = 5 - $this->cards->count();
 
-        if ($missedCardsCount < 0) {
-            for ($i = 0; $i < $missedCardsCount; $i++) {
-                $totalWeight .= '00';
-            }
+        for ($i = 0; $i < $missedCardsCount; $i++) {
+            $totalWeight .= '00';
         }
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return Card|null
+     */
+    public function getKicker(): ?Card
+    {
+        return $this->playerOnlyNotCombinationCards->sortByPriority(true)[0] ?? null;
+    }
+
+    /**
+     * @return Card|null
+     */
+    public function getSecondKicker(): ?Card
+    {
+        return $this->playerOnlyNotCombinationCards->sortByPriority(true)[1] ?? null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->cards->sortByPriority(true)[0]->getPriority();
     }
 }

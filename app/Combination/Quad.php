@@ -9,7 +9,12 @@
 namespace App\Combination;
 
 
-class Quad extends CombinationAbstract
+use App\Card;
+use App\CardsCollection;
+use App\Interfaces\HasKickerInterface;
+use App\Interfaces\OnePriorityOrientedCombinationInterface;
+
+class Quad extends CombinationAbstract implements HasKickerInterface, OnePriorityOrientedCombinationInterface
 {
     /**
      * @const int WEIGHT
@@ -24,9 +29,34 @@ class Quad extends CombinationAbstract
         $totalWeight = self::WEIGHT;
 
         $totalWeight .= $this->onlyCombinationCards->random()->getWeight();
+        $totalWeight .= $this->onlyNotCombinationCards[0]->getWeight();
 
-        $totalWeight .= '00000000';
+        $totalWeight .= '000000';
 
         return (int) $totalWeight;
+    }
+
+    /**
+     * @return Card|null
+     */
+    public function getKicker(): ?Card
+    {
+        return $this->playerOnlyNotCombinationCards[0] ?? null;
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getSortedCards(): CardsCollection
+    {
+        return $this->onlyCombinationCards->merge($this->onlyNotCombinationCards);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->onlyCombinationCards[0]->getPriority();
     }
 }
