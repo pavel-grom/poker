@@ -9,6 +9,8 @@
 namespace Pagrom\Poker;
 
 
+use Pagrom\Poker\Combination\CombinationDeterminant;
+use Pagrom\Poker\Combination\WinnerDeterminant;
 use Pagrom\Poker\Exceptions\GameLogicException;
 use Pagrom\Poker\Interfaces\CombinationInterface;
 use Pagrom\Poker\Interfaces\HasKickerInterface;
@@ -133,13 +135,15 @@ class PokerHelper
 
     /**
      * @param CombinationInterface $combination
-     * @param bool $needKicker
-     * @param bool $needSecondKicker
+     * @param WinnerDeterminant $winnerDeterminant
      * @return array
      */
-    public function getCombinationData(CombinationInterface $combination, bool $needKicker, bool $needSecondKicker): array
+    public function getCombinationData(CombinationInterface $combination, WinnerDeterminant $winnerDeterminant): array
     {
         $combinationClass = get_class($combination);
+
+        $needKicker = $winnerDeterminant->isNeedKicker();
+        $needSecondKicker = $winnerDeterminant->isNeedSecondKicker();
 
         $data = [];
 
@@ -222,5 +226,20 @@ class PokerHelper
         $data['combination_text']  = str_replace(':kickers_text', $kickersText, $data['combination_text']);
 
         return $data;
+    }
+
+    /**
+     * @param Table $table
+     */
+    public function determineCombinations(Table $table): void
+    {
+        foreach ($table->getPlayers() as $player) {
+            $playerCombinationDeterminant = new CombinationDeterminant($table->getCards(), $player->getCards());
+            $combination = $playerCombinationDeterminant->getCombination();
+            $player->setCombination($combination);
+        }
+
+        $tableCombinationDeterminant = new CombinationDeterminant($table->getCards());
+        $table->setCombination($tableCombinationDeterminant->getCombination());
     }
 }
