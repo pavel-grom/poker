@@ -3,6 +3,13 @@ Poker
 
 A PHP-based Texas Hold'em Poker library capable of hand calculations, determine wining hand and preparing hands data.
 
+Install
+-------
+
+```
+composer require pagrom/poker
+```
+
 Usage
 -----
 
