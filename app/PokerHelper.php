@@ -133,9 +133,12 @@ class PokerHelper
 
     /**
      * @param CombinationInterface $combination
+     * @param bool $needKicker
+     * @param bool $needSecondKicker
      * @return array
+     * @internal param bool $needKickers
      */
-    public function getCombinationData(CombinationInterface $combination): array
+    public function getCombinationData(CombinationInterface $combination, bool $needKicker, bool $needSecondKicker): array
     {
         $combinationClass = get_class($combination);
 
@@ -184,33 +187,35 @@ class PokerHelper
 
         $kickersText = '';
 
-        if ($combination instanceof HasKickerInterface) {
-            $kicker = $combination->getKicker();
-            if ($kicker) {
-                $kickerName = $this->getCardName($kicker);
-                $kickerText = $this->config['combinations'][$combinationClass]['text_kicker'];
-                $kickerText = str_replace(
-                    ':kicker',
-                    $kickerName,
-                    $kickerText
-                );
-                $kickersText = $kickerText;
-                if ($combination instanceof HasTwoKickersInterface) {
-                    $secondKicker = $combination->getSecondKicker();
-                    if ($secondKicker) {
-                        $secondKickerName = $this->getCardName($secondKicker);
-                        $secondKickerText = $this->config['combinations'][$combinationClass]['text_second_kicker'];
-                        $secondKickerText = str_replace(
-                            ':kicker',
-                            $kickerName,
-                            $secondKickerText
-                        );
-                        $secondKickerText = str_replace(
-                            ':second_kicker',
-                            $secondKickerName,
-                            $secondKickerText
-                        );
-                        $kickersText = $secondKickerText;
+        if ($needKicker) {
+            if ($combination instanceof HasKickerInterface) {
+                $kicker = $combination->getKicker();
+                if ($kicker) {
+                    $kickerName = $this->getCardName($kicker);
+                    $kickerText = $this->config['combinations'][$combinationClass]['text_kicker'];
+                    $kickerText = str_replace(
+                        ':kicker',
+                        $kickerName,
+                        $kickerText
+                    );
+                    $kickersText = $kickerText;
+                    if ($needSecondKicker && $combination instanceof HasTwoKickersInterface) {
+                        $secondKicker = $combination->getSecondKicker();
+                        if ($secondKicker) {
+                            $secondKickerName = $this->getCardName($secondKicker);
+                            $secondKickerText = $this->config['combinations'][$combinationClass]['text_second_kicker'];
+                            $secondKickerText = str_replace(
+                                ':kicker',
+                                $kickerName,
+                                $secondKickerText
+                            );
+                            $secondKickerText = str_replace(
+                                ':second_kicker',
+                                $secondKickerName,
+                                $secondKickerText
+                            );
+                            $kickersText = $secondKickerText;
+                        }
                     }
                 }
             }

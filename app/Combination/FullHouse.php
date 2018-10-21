@@ -9,6 +9,8 @@
 namespace App\Combination;
 
 
+use App\Card;
+use App\CardsCollection;
 use App\Interfaces\TwoPriorityOrientedCombinationInterface;
 
 class FullHouse extends CombinationAbstract implements TwoPriorityOrientedCombinationInterface
@@ -25,12 +27,13 @@ class FullHouse extends CombinationAbstract implements TwoPriorityOrientedCombin
     {
         $totalWeight = self::WEIGHT;
 
-        $onlyCombinationCards = $this->cards->sortByPriority();
+        $pairPriority = $this->getPairPriority();
+        $setPriority = $this->getSetPriority();
 
-        $pairPriority = $onlyCombinationCards[0]->getWeight();
-        $setPriority = $onlyCombinationCards[$onlyCombinationCards->count() - 1]->getWeight();
+        $pairWeight = $pairPriority >= $pairPriority ? '0' . $pairPriority : $pairPriority;
+        $setWeight = $setPriority >= $setPriority ? '0' . $setPriority : $setPriority;
 
-        $totalWeight .= $setPriority . $pairPriority;
+        $totalWeight .= $setWeight . $pairWeight;
 
         $totalWeight .= '000000';
 
@@ -42,7 +45,7 @@ class FullHouse extends CombinationAbstract implements TwoPriorityOrientedCombin
      */
     public function getPriority(): int
     {
-        return $this->onlyCombinationCards->sortByPriority(true)[0]->getPriority();
+        return $this->getSetPriority();
     }
 
     /**
@@ -50,6 +53,57 @@ class FullHouse extends CombinationAbstract implements TwoPriorityOrientedCombin
      */
     public function getSecondPriority(): int
     {
-        return $this->onlyCombinationCards->sortByPriority()[0]->getPriority();
+        return $this->getPairPriority();
+    }
+
+    /**
+     * @return CardsCollection
+     */
+    public function getSortedCards(): CardsCollection
+    {
+        $prioritiesCounts = $this->getPrioritiesCounts();
+
+        return $this->cards->usort(function(Card $a, Card $b) use ($prioritiesCounts) {
+            $priorityCountA = $prioritiesCounts[$a->getPriority()];
+            $priorityCountB = $prioritiesCounts[$b->getPriority()];
+
+            if ($priorityCountA === $priorityCountB) {
+                return 0;
+            }
+
+            return $priorityCountA > $priorityCountB ? -1 : 1;
+        });
+    }
+
+    /**
+     * @return int
+     */
+    private function getSetPriority(): int
+    {
+        $counts = $this->getPrioritiesCounts();
+
+        return array_search(max($counts), $counts);
+    }
+
+    /**
+     * @return int
+     */
+    private function getPairPriority(): int
+    {
+        $counts = $this->getPrioritiesCounts();
+
+        return array_search(min($counts), $counts);
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getPrioritiesCounts(): array
+    {
+        $priorities = $this->onlyCombinationCards->map(function(Card $card){
+            return $card->getPriority();
+        });
+
+        return array_count_values($priorities);
     }
 }

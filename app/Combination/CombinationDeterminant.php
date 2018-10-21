@@ -117,10 +117,13 @@ class CombinationDeterminant
     {
         $smallerCardsCount = count($this->priorities) - 5;
 
+        $highCard = $this->cards->getCardsByPriorities(max($this->priorities));
+
         if ($smallerCardsCount <= 0) {
             return new HighCard(
                 $this->cards->getCardsByPriorities($this->priorities),
-                $this->playerCards
+                $this->playerCards,
+                $highCard
             );
         }
 
@@ -134,7 +137,8 @@ class CombinationDeterminant
                     5
                 )
             ),
-            $this->playerCards
+            $this->playerCards,
+            $highCard
         );
     }
 

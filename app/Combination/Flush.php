@@ -26,13 +26,9 @@ class Flush extends CombinationAbstract implements SuitOrientedCombinationInterf
     {
         $totalWeight = self::WEIGHT;
 
-        $cards = $this->cards->map(function(Card $card){
-            return $card->getPriority();
-        });
-        rsort($cards);
-
-        $totalWeight .= $cards[0];
-        $totalWeight .= '00000000';
+        foreach ($this->cards->sortByPriority(true) as $card) {
+            $totalWeight .= $card->getWeight();
+        }
 
         return (int) $totalWeight;
     }

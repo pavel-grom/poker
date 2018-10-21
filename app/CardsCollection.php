@@ -114,6 +114,19 @@ class CardsCollection extends ArrayObject
     }
 
     /**
+     * @param callable $callback
+     * @return CardsCollection
+     */
+    public function usort(callable $callback): self
+    {
+        $cards = (array) $this;
+
+        usort($cards, $callback);
+
+        return new self($cards);
+    }
+
+    /**
      * @param mixed $card
      */
     public function append($card)
