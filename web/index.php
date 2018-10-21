@@ -40,13 +40,13 @@ $table->addPlayer(new \App\Player('Sam'));
 $table->dealCards();
 
 foreach ($table->getPlayers() as $player) {
-    $combinationDeterminant = new \App\Combination\CombinationDeterminant($table->getCards(), $player->getCards());
-    $combination = $combinationDeterminant->determineCombination();
+    $playerCombinationDeterminant = new \App\Combination\CombinationDeterminant($table->getCards(), $player->getCards());
+    $combination = $playerCombinationDeterminant->getCombination();
     $player->setCombination($combination);
 }
 
-$combinationDeterminant = new \App\Combination\CombinationDeterminant($table->getCards());
-$table->setCombination($combinationDeterminant->determineCombination());
+$tableCombinationDeterminant = new \App\Combination\CombinationDeterminant($table->getCards());
+$table->setCombination($tableCombinationDeterminant->getCombination());
 
 $winnerDeterminant = new \App\Combination\WinnerDeterminant($table);
 $winners = $winnerDeterminant->getWinners();

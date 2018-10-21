@@ -18,32 +18,32 @@ use App\Interfaces\CombinationInterface;
 class CombinationDeterminant
 {
     /**
-     * @var CardsCollection $tableCards
+     * @var CardsCollection
      * */
     private $tableCards;
 
     /**
-     * @var CardsCollection $playerCards
+     * @var CardsCollection
      * */
     private $playerCards;
 
     /**
-     * @var CardsCollection $cards
+     * @var CardsCollection
      * */
     private $cards;
 
     /**
-     * @var int[] $priorities
+     * @var int[]
      * */
     private $priorities;
 
     /**
-     * @var int[] $suites
+     * @var int[]
      * */
     private $suites;
 
     /**
-     * @var array $pairs
+     * @var array
      * */
     private $pairs = [];
 
@@ -53,9 +53,14 @@ class CombinationDeterminant
     private $sets = [];
 
     /**
-     * @var array $quads
+     * @var array
      * */
     private $quads = [];
+
+    /**
+     * @var CombinationInterface
+     * */
+    private $combination;
 
     /**
      * CombinationDeterminant constructor.
@@ -78,12 +83,21 @@ class CombinationDeterminant
         });
 
         $this->getPrioritiesCounts();
+        $this->combination = $this->determineCombination();
     }
 
     /**
      * @return CombinationInterface
      */
-    public function determineCombination(): CombinationInterface
+    public function getCombination(): CombinationInterface
+    {
+        return $this->combination;
+    }
+
+    /**
+     * @return CombinationInterface
+     */
+    private function determineCombination(): CombinationInterface
     {
         if ($combination = $this->checkRoyalFlush()) {
             return $combination;
