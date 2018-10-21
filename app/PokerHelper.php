@@ -136,7 +136,6 @@ class PokerHelper
      * @param bool $needKicker
      * @param bool $needSecondKicker
      * @return array
-     * @internal param bool $needKickers
      */
     public function getCombinationData(CombinationInterface $combination, bool $needKicker, bool $needSecondKicker): array
     {
@@ -157,7 +156,6 @@ class PokerHelper
             $cardKey = $k + 1;
             $combinationText = str_replace(':card_' . $cardKey, $cardName, $combinationText);
         }
-
 
         if ($combination instanceof OnePriorityOrientedCombinationInterface) {
             $combinationText = str_replace(
