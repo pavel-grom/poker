@@ -2,7 +2,7 @@
     "name": "poker",
     "description": "poker",
     "type": "new",
-    "license": "mid",
+    "license": "MIT",
     "authors": [
         {
             "name": "pavel-grom",
