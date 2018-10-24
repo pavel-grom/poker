@@ -308,6 +308,28 @@ class PokerHelper
     }
 
     /**
+     * @param string $namedPattern
+     * @return string
+     */
+    public function getCardPatternByNamedPattern(string $namedPattern): string
+    {
+        [$priority, $suit] = explode('|', $namedPattern);
+
+        return $this->getPriorityByName($priority) . '|' . $this->getSuitByName($suit);
+    }
+
+    /**
+     * @param array $namedPatterns
+     * @return array
+     */
+    public function getCardPatternByNamedPatternArray(array $namedPatterns): array
+    {
+        return array_map(function(string $pattern){
+            return $this->getCardPatternByNamedPattern($pattern);
+        }, $namedPatterns);
+    }
+
+    /**
      * @param Table $table
      */
     public function determineCombinations(Table $table): void

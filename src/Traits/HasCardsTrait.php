@@ -11,6 +11,7 @@ namespace Pagrom\Poker\Traits;
 
 use Pagrom\Poker\Card;
 use Pagrom\Poker\CardsCollection;
+use Pagrom\Poker\Exceptions\GameLogicException;
 
 trait HasCardsTrait
 {
@@ -32,6 +33,10 @@ trait HasCardsTrait
      */
     public function addCard(Card $card): void
     {
+        if ($this->cards && $this->cards->count() === static::MAX_CARDS_COUNT) {
+            throw new GameLogicException('Player or table has max cards');
+        }
+
         if (!($this->cards instanceof CardsCollection)) {
             $this->cards = new CardsCollection($this->cards ?? []);
         }

@@ -32,17 +32,23 @@ $table->addPlayer(new Player('Sam'));
 //$dean = $table->getPlayer('Dean');
 //$sam = $table->getPlayer('Sam');
 //
-//$table->dealCard($dean, $pokerHelper->getPriorityByName('Q'), $pokerHelper->getSuitByName('Spade'));
-//$table->dealCard($dean, $pokerHelper->getPriorityByName('A'), $pokerHelper->getSuitByName('Spade'));
+//$table->dealCardsByPattern($dean, $pokerHelper->getCardPatternByNamedPatternArray([
+//    'Q|Spade',
+//    'Q|Club',
+//]));
 //
-//$table->dealCard($sam, $pokerHelper->getPriorityByName('4'), $pokerHelper->getSuitByName('Spade'));
-//$table->dealCard($sam, $pokerHelper->getPriorityByName('7'), $pokerHelper->getSuitByName('Club'));
+//$table->dealCardsByPattern($sam, $pokerHelper->getCardPatternByNamedPatternArray([
+//    'J|Spade',
+//    'J|Club',
+//]));
 //
-//$table->dealCard($table, $pokerHelper->getPriorityByName('5'), $pokerHelper->getSuitByName('Heart'));
-//$table->dealCard($table, $pokerHelper->getPriorityByName('2'), $pokerHelper->getSuitByName('Spade'));
-//$table->dealCard($table, $pokerHelper->getPriorityByName('2'), $pokerHelper->getSuitByName('Diamond'));
-//$table->dealCard($table, $pokerHelper->getPriorityByName('3'), $pokerHelper->getSuitByName('Heart'));
-//$table->dealCard($table, $pokerHelper->getPriorityByName('4'), $pokerHelper->getSuitByName('Club'));
+//$table->dealCardsByPattern($table, $pokerHelper->getCardPatternByNamedPatternArray([
+//    '5|Heart',
+//    '2|Spade',
+//    '2|Diamond',
+//    '3|Heart',
+//    '4|Club',
+//]));
 
 $table->dealCards();
 

@@ -20,6 +20,8 @@ class Table implements HasCardsInterface, HasCombinationInterface
 {
     use HasCardsTrait, HasCombinationTrait;
 
+    public const MAX_CARDS_COUNT = 5;
+
     /**
      * @var PlayerInterface[] $players
      * */
@@ -29,6 +31,7 @@ class Table implements HasCardsInterface, HasCombinationInterface
      * @var DeckOfCards
      * */
     private $deckOfCards;
+
     /**
      * @var callable|null
      */
@@ -93,6 +96,30 @@ class Table implements HasCardsInterface, HasCombinationInterface
     }
 
     /**
+     * @param HasCardsInterface $hasCards
+     * @param string $cardPattern
+     */
+    public function dealCardByPattern(HasCardsInterface $hasCards, string $cardPattern): void
+    {
+        $cardParams = $this->getCardParamsByPattern($cardPattern);
+
+        $card = $this->deckOfCards->dealCard($cardParams[0], $cardParams[1]);
+
+        $hasCards->addCard($card);
+    }
+
+    /**
+     * @param HasCardsInterface $hasCards
+     * @param array $cardsPatterns
+     */
+    public function dealCardsByPattern(HasCardsInterface $hasCards, array $cardsPatterns): void
+    {
+        foreach ($cardsPatterns as $cardPattern) {
+            $this->dealCardByPattern($hasCards, $cardPattern);
+        }
+    }
+
+    /**
      * @return PlayerInterface[]
      */
     public function getPlayers(): array
@@ -111,5 +138,14 @@ class Table implements HasCardsInterface, HasCombinationInterface
         }
 
         return $this->players[$name];
+    }
+
+    /**
+     * @param $cardPattern
+     * @return array
+     */
+    private function getCardParamsByPattern($cardPattern): array
+    {
+        return explode('|', $cardPattern);
     }
 }
