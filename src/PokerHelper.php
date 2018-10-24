@@ -142,9 +142,6 @@ class PokerHelper
     {
         $combinationClass = get_class($combination);
 
-        $needKicker = $winnerDeterminant->isNeedKicker();
-        $needSecondKicker = $winnerDeterminant->isNeedSecondKicker();
-
         $data = [];
 
         $data['combination_name'] = $this->config['combinations'][$combinationClass]['name'];
@@ -161,71 +158,153 @@ class PokerHelper
             $combinationText = str_replace(':card_' . $cardKey, $cardName, $combinationText);
         }
 
-        if ($combination instanceof OnePriorityOrientedCombinationInterface) {
+        if ($firstPriorityText = $this->getFirstPriorityText($combination)) {
             $combinationText = str_replace(
                 ':priority_1',
-                $this->getNamedPriority($combination->getPriority()),
+                $firstPriorityText,
                 $combinationText
             );
         }
 
-        if ($combination instanceof TwoPriorityOrientedCombinationInterface) {
+        if ($secondPriorityText = $this->getSecondPriorityText($combination)) {
             $combinationText = str_replace(
                 ':priority_2',
-                $this->getNamedPriority($combination->getSecondPriority()),
+                $secondPriorityText,
                 $combinationText
             );
         }
 
-        if ($combination instanceof SuitOrientedCombinationInterface) {
+        if ($suitText = $this->getSuitText($combination)) {
             $combinationText = str_replace(
                 ':suit',
-                $this->getNamedSuit($combination->getSuit()),
+                $suitText,
                 $combinationText
             );
         }
+
+        $needKicker = $winnerDeterminant->isNeedKicker();
+        $needSecondKicker = $winnerDeterminant->isNeedSecondKicker();
+
+        $kickersText = $this->getKickersText($combination, $needKicker, $needSecondKicker);
+        $combinationText = str_replace(':kickers_text', $kickersText, $combinationText);
 
         $data['combination_text'] = $combinationText;
 
-        $kickersText = '';
+        return $data;
+    }
 
-        if ($needKicker) {
-            if ($combination instanceof HasKickerInterface) {
-                $kicker = $combination->getKicker();
-                if ($kicker) {
-                    $kickerName = $this->getCardName($kicker);
-                    $kickerText = $this->config['combinations'][$combinationClass]['text_kicker'];
-                    $kickerText = str_replace(
-                        ':kicker',
-                        $kickerName,
-                        $kickerText
-                    );
-                    $kickersText = $kickerText;
-                    if ($needSecondKicker && $combination instanceof HasTwoKickersInterface) {
-                        $secondKicker = $combination->getSecondKicker();
-                        if ($secondKicker) {
-                            $secondKickerName = $this->getCardName($secondKicker);
-                            $secondKickerText = $this->config['combinations'][$combinationClass]['text_second_kicker'];
-                            $secondKickerText = str_replace(
-                                ':kicker',
-                                $kickerName,
-                                $secondKickerText
-                            );
-                            $secondKickerText = str_replace(
-                                ':second_kicker',
-                                $secondKickerName,
-                                $secondKickerText
-                            );
-                            $kickersText = $secondKickerText;
-                        }
-                    }
-                }
-            }
+    /**
+     * @param CombinationInterface $combination
+     * @return null|string
+     */
+    public function getFirstPriorityText(CombinationInterface $combination): ?string
+    {
+        if (!($combination instanceof OnePriorityOrientedCombinationInterface)) {
+            return null;
         }
 
-        $data['combination_text']  = str_replace(':kickers_text', $kickersText, $data['combination_text']);
+        return $this->getNamedPriority($combination->getPriority());
+    }
 
-        return $data;
+    /**
+     * @param CombinationInterface $combination
+     * @return null|string
+     */
+    public function getSecondPriorityText(CombinationInterface $combination): ?string
+    {
+        if (!($combination instanceof TwoPriorityOrientedCombinationInterface)) {
+            return null;
+        }
+
+        return $this->getNamedPriority($combination->getSecondPriority());
+    }
+
+    /**
+     * @param CombinationInterface $combination
+     * @return null|string
+     */
+    public function getSuitText(CombinationInterface $combination): ?string
+    {
+        if (!($combination instanceof SuitOrientedCombinationInterface)) {
+            return null;
+        }
+
+        return $this->getNamedSuit($combination->getSuit());
+    }
+
+    /**
+     * @param CombinationInterface $combination
+     * @param bool $needKicker
+     * @param bool $needSecondKicker
+     * @return string|null
+     */
+    public function getKickersText(CombinationInterface $combination, bool $needKicker, bool $needSecondKicker): string
+    {
+        if (
+            !$needKicker
+            || !($kickerText = $this->getFirstKickerText($combination))
+        ) {
+            return '';
+        }
+
+        if (
+            !$needSecondKicker
+            || !($secondKickerText = $this->getSecondKickerText($combination))
+        ) {
+            return $kickerText;
+        }
+
+        return $kickerText . $secondKickerText;
+    }
+
+    /**
+     * @param CombinationInterface $combination
+     * @return null|string
+     */
+    public function getFirstKickerText(CombinationInterface $combination): ?string
+    {
+        if (
+            !($combination instanceof HasKickerInterface)
+            || !($kicker = $combination->getKicker())
+        ) {
+            return null;
+        }
+
+        $combinationClass = get_class($combination);
+
+        $kickerName = $this->getCardName($kicker);
+        $kickerText = $this->config['combinations'][$combinationClass]['text_kicker'];
+
+        return str_replace(
+            ':kicker',
+            $kickerName,
+            $kickerText
+        );
+    }
+
+    /**
+     * @param CombinationInterface $combination
+     * @return null|string
+     */
+    public function getSecondKickerText(CombinationInterface $combination): ?string
+    {
+        if (
+            !($combination instanceof HasTwoKickersInterface)
+            || !($secondKicker = $combination->getSecondKicker())
+        ) {
+            return null;
+        }
+
+        $combinationClass = get_class($combination);
+
+        $secondKickerName = $this->getCardName($secondKicker);
+        $secondKickerText = $this->config['combinations'][$combinationClass]['text_second_kicker'];
+
+        return str_replace(
+            ':second_kicker',
+            $secondKickerName,
+            $secondKickerText
+        );
     }
 
     /**

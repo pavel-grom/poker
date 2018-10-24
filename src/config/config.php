@@ -33,7 +33,7 @@ return [
             'name' => 'Pair',
             'text' => ':combination_name of :priority_1(:card_1 and :card_2):kickers_text',
             'text_kicker' => ' with kicker :kicker',
-            'text_second_kicker' => ' with kicker :kicker and second kicker :second_kicker',
+            'text_second_kicker' => ' and second kicker :second_kicker',
         ],
         \Pagrom\Poker\Combination\TwoPairs::class => [
             'name' => 'Two pairs',
@@ -44,7 +44,7 @@ return [
             'name' => 'Set',
             'text' => ':combination_name of :priority_1(:card_1, :card_2 and :card_3):kickers_text',
             'text_kicker' => ' with kicker :kicker',
-            'text_second_kicker' => ' with kicker :kicker and second kicker :second_kicker',
+            'text_second_kicker' => ' and second kicker :second_kicker',
         ],
         \Pagrom\Poker\Combination\Straight::class => [
             'name' => 'Straight',
