@@ -439,7 +439,11 @@ class CombinationDeterminant
             return null;
         }
 
-        if (!$straightFlush->getOnlyCombinationCards()->getCardsByPriorities(13)->count()) {
+        if (
+            $straightFlush->getOnlyCombinationCards()->getCardsByPriorities(13)->count() === 0
+            ||
+            $straightFlush->getOnlyCombinationCards()->getCardsByPriorities(1)->count() !== 0
+        ) {
             return null;
         }
 
