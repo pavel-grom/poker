@@ -119,12 +119,18 @@ class WinnerDeterminant
             $combination = $player->getCombination();
             $weight = $combination::WEIGHT;
             if ($combination instanceof OnePriorityOrientedCombinationInterface) {
-                $weight += $combination->getPriority();
+                $priority = $combination->getPriority();
+                $weight .= $priority > 9 ? $priority : '0' . $priority;
+            } else {
+                $weight .= '00';
             }
             if ($combination instanceof TwoPriorityOrientedCombinationInterface) {
-                $weight += $combination->getSecondPriority();
+                $secondPriority = $combination->getSecondPriority();
+                $weight .= $secondPriority > 9 ? $secondPriority : '0' . $secondPriority;
+            } else {
+                $weight .= '00';
             }
-            $weights[$name] = $weight;
+            $weights[$name] = (int) $weight;
             $totalWeights[$name] = $combination->getTotalWeight();
         }
 
