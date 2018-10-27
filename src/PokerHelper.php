@@ -52,7 +52,7 @@ class PokerHelper
      */
     public function __construct(?array $config = null)
     {
-        $this->config = $config ?? require_once __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+        $this->config = $config ?? require __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
         $this->cardsPrioritiesMap = $this->config['cards_priorities_map'];
         $this->cardsSuitsMap = $this->config['cards_suites_map'];
         $this->cardsPrioritiesMapFlip = array_flip($this->config['cards_priorities_map']);

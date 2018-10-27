@@ -1,9 +1,9 @@
 <?php
 
-use PHPUnit\Framework\CombinationDeterminationTestCase;
+use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
 
 
-class FullHouseDeterminationTest extends CombinationDeterminationTestCase
+class FullHouseTest extends TestCase
 {
     /**
      * cards for testing

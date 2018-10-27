@@ -19,7 +19,8 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/CombinationDeterminationTestCase.php"
+            "tests/CombinationDeterminationTests/TestCase.php",
+            "tests/WinnerDeterminationTests/TestCase.php"
         ]
     },
     "require-dev": {

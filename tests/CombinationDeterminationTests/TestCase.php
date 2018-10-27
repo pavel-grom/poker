@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPUnit\Framework;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
 
-abstract class CombinationDeterminationTestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * cards for testing
