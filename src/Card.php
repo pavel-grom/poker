@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: m1x
- * Date: 017 17.10.18
- * Time: 11:20
- */
 
 namespace Pagrom\Poker;
 
@@ -39,7 +33,7 @@ class Card
      * @param int $suit
      * @return Card
      */
-    public static function make(int $priority, int $suit)
+    public static function make(int $priority, int $suit): self
     {
         if (
             !in_array($priority, range(1, 13), true)

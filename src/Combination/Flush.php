@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: m1x
- * Date: 017 17.10.18
- * Time: 13:04
- */
 
 namespace Pagrom\Poker\Combination;
 
 
-use Pagrom\Poker\Card;
 use Pagrom\Poker\Interfaces\SuitOrientedCombinationInterface;
 
 class Flush extends CombinationAbstract implements SuitOrientedCombinationInterface

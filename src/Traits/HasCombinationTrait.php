@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: m1x
- * Date: 018 18.10.18
- * Time: 21:27
- */
 
 namespace Pagrom\Poker\Traits;
 

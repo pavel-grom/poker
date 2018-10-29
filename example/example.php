@@ -29,26 +29,26 @@ $table->addPlayer(new Player('Dean'));
 $table->addPlayer(new Player('Sam'));
 
 // deal cards manually
-//$dean = $table->getPlayer('Dean');
-//$sam = $table->getPlayer('Sam');
-//
-//$table->dealCardsByPattern($dean, $pokerHelper->getCardPatternByNamedPatternArray([
-//    'Q|Spade',
-//    'Q|Club',
-//]));
-//
-//$table->dealCardsByPattern($sam, $pokerHelper->getCardPatternByNamedPatternArray([
-//    'J|Spade',
-//    'J|Club',
-//]));
-//
-//$table->dealCardsByPattern($table, $pokerHelper->getCardPatternByNamedPatternArray([
-//    '5|Heart',
-//    '2|Spade',
-//    '2|Diamond',
-//    '3|Heart',
-//    '4|Club',
-//]));
+$dean = $table->getPlayer('Dean');
+$sam = $table->getPlayer('Sam');
+
+$table->dealCardsByPattern($dean, $pokerHelper->getCardPatternByNamedPatternArray([
+    'A|Spade',
+    'K|Diamond',
+]));
+
+$table->dealCardsByPattern($sam, $pokerHelper->getCardPatternByNamedPatternArray([
+    'A|Diamond',
+    'K|Club',
+]));
+
+$table->dealCardsByPattern($table, $pokerHelper->getCardPatternByNamedPatternArray([
+    'A|Club',
+    'J|Club',
+    '10|Club',
+    '8|Club',
+    '6|Club',
+]));
 
 $table->dealCards();
 
@@ -75,6 +75,12 @@ dump('Winners:');
 foreach ($winners as $winner) {
     dump($winner->getName());
     dump($pokerHelper->getCombinationData($winner->getCombination(), $winnerDeterminant));
+}
+
+dump('Candidates:');
+foreach ($winnerDeterminant->getCandidates() as $candidate) {
+    dump($candidate->getName());
+    dump($pokerHelper->getCombinationData($candidate->getCombination(), $winnerDeterminant));
 }
 
 

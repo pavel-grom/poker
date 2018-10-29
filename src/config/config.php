@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: m1x
- * Date: 017 17.10.18
- * Time: 16:22
- */
 
 return [
     'cards_priorities_map' => [

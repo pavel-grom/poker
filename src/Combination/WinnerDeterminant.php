@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: m1x
- * Date: 019 19.10.18
- * Time: 15:49
- */
 
 namespace Pagrom\Poker\Combination;
 
