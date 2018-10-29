@@ -411,17 +411,24 @@ class CombinationDeterminant
     private function checkStraightFlush(): ?StraightFlush
     {
         if (
-            $this->checkFlush()
-            &&
-            $straight = $this->checkStraight()
+            !($flush = $this->checkFlush())
+            ||
+            !($straight = $this->checkStraight())
         ) {
-            return new StraightFlush(
-                $straight->getOnlyCombinationCards(),
-                $this->playerCards
-            );
+            return null;
         }
 
-        return null;
+        $flushCards = $flush->getOnlyCombinationCards();
+        $straightCards = $straight->getOnlyCombinationCards();
+
+        if ($flushCards->diff($straightCards)->count() > 0) {
+            return null;
+        }
+
+        return new StraightFlush(
+            $straight->getOnlyCombinationCards(),
+            $this->playerCards
+        );
     }
 
     /**
