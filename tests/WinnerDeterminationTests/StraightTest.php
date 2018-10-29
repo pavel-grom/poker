@@ -108,6 +108,25 @@ class StraightTest extends TestCase
             /*candidates*/
             ['player1'],
         ],
+        [
+            /*players*/
+            [
+                'player1' => [
+                    [13, 2], [4, 3]
+                ],
+                'player2' => [
+                    [5, 1], [4, 2]
+                ],
+            ],
+            /*table*/
+            [
+                [2, 1], [12, 2], [11, 3], [1, 4], [3, 4]
+            ],
+            /*winners*/
+            ['player2'],
+            /*candidates*/
+            ['player2'],
+        ],
     ];
 
     /**

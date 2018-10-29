@@ -21,12 +21,9 @@ class Straight extends CombinationAbstract implements OnePriorityOrientedCombina
     {
         $totalWeight = static::WEIGHT;
 
-        $cards = $this->cards->map(function(Card $card){
-            return $card->getWeight();
-        });
-        rsort($cards);
+        $highCardWeight = $this->getSortedCards()[0]->getWeight();
 
-        $totalWeight .= $cards[0];
+        $totalWeight .= $highCardWeight;
         $totalWeight .= '00000000';
 
         return (int) $totalWeight;

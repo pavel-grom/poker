@@ -29,26 +29,26 @@ $table->addPlayer(new Player('Dean'));
 $table->addPlayer(new Player('Sam'));
 
 // deal cards manually
-$dean = $table->getPlayer('Dean');
-$sam = $table->getPlayer('Sam');
-
-$table->dealCardsByPattern($dean, $pokerHelper->getCardPatternByNamedPatternArray([
-    'A|Spade',
-    'K|Diamond',
-]));
-
-$table->dealCardsByPattern($sam, $pokerHelper->getCardPatternByNamedPatternArray([
-    'A|Diamond',
-    'K|Club',
-]));
-
-$table->dealCardsByPattern($table, $pokerHelper->getCardPatternByNamedPatternArray([
-    'A|Club',
-    'J|Club',
-    '10|Club',
-    '8|Club',
-    '6|Club',
-]));
+//$dean = $table->getPlayer('Dean');
+//$sam = $table->getPlayer('Sam');
+//
+//$table->dealCardsByPattern($dean, $pokerHelper->getCardPatternByNamedPatternArray([
+//    'A|Spade',
+//    '5|Diamond',
+//]));
+//
+//$table->dealCardsByPattern($sam, $pokerHelper->getCardPatternByNamedPatternArray([
+//    '6|Diamond',
+//    '5|Club',
+//]));
+//
+//$table->dealCardsByPattern($table, $pokerHelper->getCardPatternByNamedPatternArray([
+//    '3|Club',
+//    'K|Spade',
+//    'Q|Club',
+//    '2|Diamond',
+//    '4|Club',
+//]));
 
 $table->dealCards();
 
