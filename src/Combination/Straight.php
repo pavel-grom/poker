@@ -19,7 +19,7 @@ class Straight extends CombinationAbstract implements OnePriorityOrientedCombina
      */
     public function getTotalWeight(): int
     {
-        $totalWeight = self::WEIGHT;
+        $totalWeight = static::WEIGHT;
 
         $cards = $this->cards->map(function(Card $card){
             return $card->getWeight();
