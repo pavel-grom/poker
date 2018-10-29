@@ -260,15 +260,30 @@ class CombinationDeterminant
     }
 
     /**
-     * @return Straight|null
+     * @param bool $checkStraightFlush
+     * @return null|Straight
      */
-    private function checkStraight(): ?Straight
+    private function checkStraight(bool $checkStraightFlush = false): ?Straight
     {
-        if ($this->cards->count() < 5) {
-            return null;
+        $cards = clone $this->cards;
+
+        if ($checkStraightFlush) {
+            $suitsCounts = array_count_values($this->suites);
+
+            if (max($suitsCounts) < 5) {
+                return null;
+            }
+
+            $suit = array_search(max($suitsCounts), $suitsCounts);
+            $cards = $cards->filter(function(Card $card) use ($suit) {
+                return $card->getSuit() === $suit;
+            });
+            $cards = new CardsCollection($cards);
         }
 
-        $cards = clone $this->cards;
+        if ($cards->count() < 5) {
+            return null;
+        }
 
         $unsetKeys = [];
 
@@ -338,13 +353,15 @@ class CombinationDeterminant
             return $card->getSuit() === $flushSuit;
         });
 
-       sort($flushCards);
+        sort($flushCards);
+
         if (count($flushCards) === 6) {
             unset($flushCards[0]);
         } elseif (count($flushCards) === 7) {
             unset($flushCards[0]);
             unset($flushCards[1]);
         }
+
         $flushCards = array_values($flushCards);
 
         return new Flush(new CardsCollection($flushCards), $this->playerCards);
@@ -410,18 +427,7 @@ class CombinationDeterminant
      */
     private function checkStraightFlush(): ?StraightFlush
     {
-        if (
-            !($flush = $this->checkFlush())
-            ||
-            !($straight = $this->checkStraight())
-        ) {
-            return null;
-        }
-
-        $flushCards = $flush->getOnlyCombinationCards();
-        $straightCards = $straight->getOnlyCombinationCards();
-
-        if ($flushCards->diff($straightCards)->count() > 0) {
+        if (!($straight = $this->checkStraight(true))) {
             return null;
         }
 
