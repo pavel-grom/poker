@@ -5,14 +5,12 @@ namespace Pagrom\Poker;
 
 use Pagrom\Poker\Exceptions\GameLogicException;
 use Pagrom\Poker\Interfaces\HasCardsInterface;
-use Pagrom\Poker\Interfaces\HasCombinationInterface;
 use Pagrom\Poker\Interfaces\PlayerInterface;
 use Pagrom\Poker\Traits\HasCardsTrait;
-use Pagrom\Poker\Traits\HasCombinationTrait;
 
-class Table implements HasCardsInterface, HasCombinationInterface
+class Table implements HasCardsInterface
 {
-    use HasCardsTrait, HasCombinationTrait;
+    use HasCardsTrait;
 
     public const MAX_CARDS_COUNT = 5;
 
