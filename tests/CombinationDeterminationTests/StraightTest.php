@@ -1,7 +1,9 @@
 <?php
 
-use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
+
+use Pagrom\Poker\Combination\Straight;
 
 class StraightTest extends TestCase
 {
@@ -24,5 +26,5 @@ class StraightTest extends TestCase
     /**
      * @var string
      * */
-    protected $combination = \Pagrom\Poker\Combination\Straight::class;
+    protected $combination = Straight::class;
 }

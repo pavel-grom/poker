@@ -1,7 +1,9 @@
 <?php
 
-use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
+
+use Pagrom\Poker\Combination\Flush;
 
 class FlushTest extends TestCase
 {
@@ -21,5 +23,5 @@ class FlushTest extends TestCase
     /**
      * @var string
      * */
-    protected $combination = \Pagrom\Poker\Combination\Flush::class;
+    protected $combination = Flush::class;
 }

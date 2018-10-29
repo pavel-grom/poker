@@ -3,7 +3,12 @@
 namespace Pagrom\Poker\Tests\CombinationDetermination;
 
 
-abstract class TestCase extends \PHPUnit\Framework\TestCase
+use Pagrom\Poker\Card;
+use Pagrom\Poker\CardsCollection;
+use Pagrom\Poker\Combination\CombinationDeterminant;
+use PHPUnit\Framework\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
 {
     /**
      * cards for testing
@@ -31,19 +36,19 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
             foreach ($playerCards as $card) {
                 [$priority, $suit] = $card;
-                $playerCardsCollection[] = \Pagrom\Poker\Card::make($priority, $suit);
+                $playerCardsCollection[] = Card::make($priority, $suit);
             }
 
-            $playerCardsCollection = new \Pagrom\Poker\CardsCollection($playerCardsCollection);
+            $playerCardsCollection = new CardsCollection($playerCardsCollection);
 
             $tableCardsCollection = [];
 
             foreach ($tableCards as $card) {
                 [$priority, $suit] = $card;
-                $tableCardsCollection[] = \Pagrom\Poker\Card::make($priority, $suit);
+                $tableCardsCollection[] = Card::make($priority, $suit);
             }
 
-            $tableCardsCollection = new \Pagrom\Poker\CardsCollection($tableCardsCollection);
+            $tableCardsCollection = new CardsCollection($tableCardsCollection);
 
             return [$playerCardsCollection, $tableCardsCollection];
 
@@ -58,7 +63,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     public function test($playerCards, $tableCards)
     {
-        $combinationDeterminant = new \Pagrom\Poker\Combination\CombinationDeterminant(
+        $combinationDeterminant = new CombinationDeterminant(
             $tableCards,
             $playerCards
         );

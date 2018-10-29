@@ -1,7 +1,9 @@
 <?php
 
-use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
+
+use Pagrom\Poker\Combination\Set;
 
 class SetTest extends TestCase
 {
@@ -21,5 +23,5 @@ class SetTest extends TestCase
     /**
      * @var string
      * */
-    protected $combination = \Pagrom\Poker\Combination\Set::class;
+    protected $combination = Set::class;
 }

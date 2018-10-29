@@ -1,7 +1,9 @@
 <?php
 
-use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
+
+use Pagrom\Poker\Combination\Quad;
 
 class QuadTest extends TestCase
 {
@@ -21,5 +23,5 @@ class QuadTest extends TestCase
     /**
      * @var string
      * */
-    protected $combination = \Pagrom\Poker\Combination\Quad::class;
+    protected $combination = Quad::class;
 }

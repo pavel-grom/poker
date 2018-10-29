@@ -333,8 +333,5 @@ class PokerHelper
             $combination = $playerCombinationDeterminant->getCombination();
             $player->setCombination($combination);
         }
-
-        $tableCombinationDeterminant = new CombinationDeterminant($table->getCards());
-        $table->setCombination($tableCombinationDeterminant->getCombination());
     }
 }

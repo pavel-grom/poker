@@ -1,7 +1,9 @@
 <?php
 
-use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
+
+use Pagrom\Poker\Combination\FullHouse;
 
 class FullHouseTest extends TestCase
 {
@@ -23,5 +25,5 @@ class FullHouseTest extends TestCase
     /**
      * @var string
      * */
-    protected $combination = \Pagrom\Poker\Combination\FullHouse::class;
+    protected $combination = FullHouse::class;
 }

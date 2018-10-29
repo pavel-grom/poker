@@ -1,7 +1,9 @@
 <?php
 
-use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
+
+use Pagrom\Poker\Combination\HighCard;
 
 class HighCardTest extends TestCase
 {
@@ -28,5 +30,5 @@ class HighCardTest extends TestCase
     /**
      * @var string
      * */
-    protected $combination = \Pagrom\Poker\Combination\HighCard::class;
+    protected $combination = HighCard::class;
 }

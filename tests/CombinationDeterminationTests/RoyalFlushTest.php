@@ -1,7 +1,9 @@
 <?php
 
-use Pagrom\Poker\Tests\CombinationDetermination\TestCase;
+namespace Pagrom\Poker\Tests\CombinationDetermination;
 
+
+use Pagrom\Poker\Combination\RoyalFlush;
 
 class RoyalFlushTest extends TestCase
 {
@@ -13,7 +15,7 @@ class RoyalFlushTest extends TestCase
      * @var array
      * */
     protected $cardsCombinations = [
-        [[[13, 1], [12, 1]], [[11, 1], [10, 1], [9, 1], [8, 4], [9, 2]]],
+        [[[13, 1], [12, 1]], [[11, 1], [10, 1], [9, 1], [9, 4], [9, 2]]],
         [[[13, 2], [12, 2]], [[11, 2], [10, 2], [9, 2], [8, 1], [9, 3]]],
         [[[13, 3], [12, 3]], [[11, 3], [10, 3], [9, 3], [8, 2], [9, 4]]],
         [[[13, 4], [12, 4]], [[11, 4], [10, 4], [9, 4], [8, 1], [9, 3]]],
@@ -23,5 +25,5 @@ class RoyalFlushTest extends TestCase
     /**
      * @var string
      * */
-    protected $combination = \Pagrom\Poker\Combination\RoyalFlush::class;
+    protected $combination = RoyalFlush::class;
 }
