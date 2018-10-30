@@ -25,7 +25,7 @@ class Quad extends CombinationAbstract implements HasKickerInterface, OnePriorit
         $totalWeight .= $this->onlyCombinationCards->random()->getWeight();
         $totalWeight .= $this->onlyNotCombinationCards[0]->getWeight();
 
-        $totalWeight .= '000000';
+        $totalWeight .= '00000000';
 
         return (int) $totalWeight;
     }

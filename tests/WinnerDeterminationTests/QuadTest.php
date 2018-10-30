@@ -70,6 +70,25 @@ class QuadTest extends TestCase
             /*candidates*/
             ['player1', 'player2'],
         ],
+        [
+            /*players*/
+            [
+                'player1' => [
+                    [13, 2], [1, 3]
+                ],
+                'player2' => [
+                    [7, 1], [7, 2]
+                ],
+            ],
+            /*table*/
+            [
+                [13, 1], [13, 3], [5, 3], [1, 1], [13, 4]
+            ],
+            /*winners*/
+            ['player1'],
+            /*candidates*/
+            ['player1'],
+        ],
     ];
 
     /**
