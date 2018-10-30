@@ -89,6 +89,25 @@ class FullHouseTest extends TestCase
             /*candidates*/
             ['player1'],
         ],
+        [
+            /*players*/
+            [
+                'player1' => [
+                    [13, 3], [1, 1]
+                ],
+                'player2' => [
+                    [7, 4], [7, 2]
+                ],
+            ],
+            /*table*/
+            [
+                [13, 1], [13, 2], [5, 3], [1, 2], [7, 3]
+            ],
+            /*winners*/
+            ['player1'],
+            /*candidates*/
+            ['player1'],
+        ],
     ];
 
     /**

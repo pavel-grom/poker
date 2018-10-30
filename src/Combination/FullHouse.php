@@ -24,8 +24,8 @@ class FullHouse extends CombinationAbstract implements TwoPriorityOrientedCombin
         $pairPriority = $this->getPairPriority();
         $setPriority = $this->getSetPriority();
 
-        $pairWeight = $pairPriority >= $pairPriority ? '0' . $pairPriority : $pairPriority;
-        $setWeight = $setPriority >= $setPriority ? '0' . $setPriority : $setPriority;
+        $pairWeight = $pairPriority < 10 ? '0' . $pairPriority : $pairPriority;
+        $setWeight = $setPriority < 10 ? '0' . $setPriority : $setPriority;
 
         $totalWeight .= $setWeight . $pairWeight;
 
