@@ -12,8 +12,6 @@ class Table implements HasCardsInterface
 {
     use HasCardsTrait;
 
-    public const MAX_CARDS_COUNT = 5;
-
     /**
      * @var PlayerInterface[] $players
      * */
@@ -29,14 +27,21 @@ class Table implements HasCardsInterface
      */
     private $randomizer;
 
+	/**
+     * @var Gametype
+     * */
+	private $gametype;
     /**
      * Table constructor.
      * @param callable|null $randomizer - function(int[] $cardsKeys): int
      */
-    public function __construct(?callable $randomizer = null)
+	 
+    public function __construct($gametype,?callable $randomizer = null)
     {
         $this->deckOfCards = new DeckOfCards($randomizer);
         $this->randomizer = $randomizer;
+		$this->gametype = $gametype;
+		$this->cardcount = $gametype->getCardcountTable();
     }
 
     /**
@@ -44,6 +49,7 @@ class Table implements HasCardsInterface
      */
     public function addPlayer(PlayerInterface $player): void
     {
+		$player->cardcount = $this->gametype->getCardcountPlayer();
         $this->players[$player->getName()] = $player;
     }
 
@@ -140,4 +146,7 @@ class Table implements HasCardsInterface
     {
         return explode('|', $cardPattern);
     }
+	public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null){
+		return $this->gametype->getCombinationDeterminant($tableCards,$playerCards);
+	}
 }

@@ -27,7 +27,7 @@ trait HasCardsTrait
      */
     public function addCard(Card $card): void
     {
-        if ($this->cards && $this->cards->count() === static::MAX_CARDS_COUNT) {
+        if ($this->cards && $this->cards->count() === $this->cardcount) {
             throw new GameLogicException('Player or table has max cards');
         }
 
