@@ -109,8 +109,8 @@ Custom randomizer for dealing cards
 
 ```php
 $randomizerCallback = function(array $cardsKeys): int {
-    return $cardsKeys[array_rand($cardsKeys)];
-};
+    return array_rand($cardsKeys);
+}
 
 $table = new Table($randomizerCallback);
 ```

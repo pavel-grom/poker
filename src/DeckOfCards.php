@@ -4,13 +4,12 @@ namespace Pagrom\Poker;
 
 
 use Pagrom\Poker\Exceptions\GameLogicException;
+use Pagrom\Poker\Interfaces\HasCardsInterface;
+use Pagrom\Poker\Traits\HasCardsTrait;
 
 class DeckOfCards implements HasCardsInterface
 {
-	/**
-     * @var CardsCollection $cards
-     * */
-    private $cards;
+    use HasCardsTrait;
 
     /**
      * DeckOfCards constructor.

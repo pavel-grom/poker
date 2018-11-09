@@ -22,6 +22,7 @@ trait HasCardsTrait
         return $this->cards ?? new CardsCollection([]);
     }
 
+
     /**
      * @param Card $card
      */

@@ -74,7 +74,7 @@ class Table implements HasCardsInterface
     {
         foreach ($this->players as $player) {
             $playerCardsCount = $player->getCards()->count();
-            $neededCountForDealing = 2 - $playerCardsCount;
+            $neededCountForDealing = $this->gametype->getCardcountPlayer() - $playerCardsCount;
             if ($neededCountForDealing > 0) {
                 $cards = $this->deckOfCards->dealRandomCards($neededCountForDealing);
                 foreach ($cards as $card) {
@@ -84,7 +84,7 @@ class Table implements HasCardsInterface
         }
 
         $tableCardsCount = $this->getCards()->count();
-        $neededCountForDealing = 5 - $tableCardsCount;
+        $neededCountForDealing = $this->gametype->getCardcountTable() - $tableCardsCount;
         if ($neededCountForDealing > 0) {
             $cards = $this->deckOfCards->dealRandomCards($neededCountForDealing);
             foreach ($cards as $card) {
