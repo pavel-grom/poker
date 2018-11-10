@@ -73,4 +73,11 @@ class DeckOfCards
 
         $this->cards = new CardsCollection($cards, 0, 'ArrayIterator', $randomizer);
     }
+	/**
+     * @return CardsCollection
+     */
+    public function getCards(): CardsCollection
+    {
+        return $this->cards ?? new CardsCollection([]);
+    }
 }

@@ -8,6 +8,7 @@ use Pagrom\Poker\CardsCollection;
 use Pagrom\Poker\Exceptions\GameLogicException;
 use Pagrom\Poker\FakeCombinations\TwoSets;
 use Pagrom\Poker\Interfaces\CombinationInterface;
+use Pagrom\Poker\Interfaces\CombinationDeterminantInterface;
 
 class CombinationDeterminant implements CombinationDeterminantInterface
 {
