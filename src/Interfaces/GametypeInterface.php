@@ -16,7 +16,7 @@ interface GametypeInterface
 	public function getCardcountTable():int;
 	
 	/**
-     * @return int
+     * @return CombiationDeterminant
      */
 	public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null);
 	

@@ -23,7 +23,9 @@ class Holdem implements GametypeInterface{
 	}
 	
 	/**
-     * @return CombinationDeterminant
+	 * @param CardsCollection $tableCards
+	 * @param CardsCollection $playerCards Optional.
+     * @return CombinationDeterminantHoldem
      */
 	public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null){
 		return new CombinationDeterminantHoldem($tableCards,$playerCards);

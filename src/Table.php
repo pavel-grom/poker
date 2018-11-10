@@ -33,6 +33,7 @@ class Table implements HasCardsInterface
 	private $gametype;
     /**
      * Table constructor.
+	 * @param GametypeInterface $gametype Set of rules ex. Holdem or Omaha gametype class.
      * @param callable|null $randomizer - function(int[] $cardsKeys): int
      */
 	 

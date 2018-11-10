@@ -80,7 +80,8 @@ class Card
         return $this->getPriority() . '|' . $this->getSuit();
     }
 	/**
-     * @return string
+	 * returns int for sorting comparation
+     * @return int
      */
 	public function getSortPriority():int
 	{

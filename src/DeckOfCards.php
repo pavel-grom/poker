@@ -7,10 +7,13 @@ use Pagrom\Poker\Exceptions\GameLogicException;
 use Pagrom\Poker\Interfaces\HasCardsInterface;
 use Pagrom\Poker\Traits\HasCardsTrait;
 
-class DeckOfCards implements HasCardsInterface
+class DeckOfCards
 {
-    use HasCardsTrait;
-
+    /**
+     * @var CardsCollection $cards
+     * */
+    private $cards;
+	
     /**
      * DeckOfCards constructor.
      * @param callable|null $randomizer - function(int[] $cardsKeys): int

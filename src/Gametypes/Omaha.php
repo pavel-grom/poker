@@ -22,8 +22,10 @@ class Omaha implements GametypeInterface{
 		return 5;
 	}
 	
-	/**
-     * @return CombinationDeterminant
+    /**
+     * @param CardsCollection $tableCards
+     * @param CardsCollection $playerCards
+	 * @return CombinationDeterminantOmaha
      */
 	public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null){
 		return new CombinationDeterminantOmaha($tableCards,$playerCards);

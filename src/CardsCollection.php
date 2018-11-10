@@ -344,49 +344,31 @@ class CardsCollection extends ArrayObject
     }
 	/**
 	 * @param int $cardcount
-	 * @param CardsCollection $cards
      * @return array of CardsCollection
      */
     public function getMathCombinationsCards(int $cardcount): array
     {
-		
-		//var_dump($cardcount);
-		if($this->count()<$cardcount)return [$this];
-		$result=[];
-		foreach($this as $index=>$card){
-			//var_dump($card.'\\'.$this->count());
-			if($cardcount==1){
-				$newCards=new CardsCollection;
+		if($this->count() < $cardcount)return [$this];
+		$result = [];
+		foreach($this as $index => $card){
+			if($cardcount == 1){
+				$newCards = new CardsCollection;
 				$newCards->append($card);
-				$result[]=$newCards;
+				$result[] = $newCards;
 			}else{
-				$newCards=clone $this;
+				$newCards = clone $this;
 				$newCards->removeCard($index);
-				foreach($newCards->getMathCombinationsCards($cardcount-1) as $collection){
-					$collection=new CardsCollection($collection->filter(function($iteratecard)use($card){
-						return $card->getSortPriority()<$iteratecard->getSortPriority();
+				foreach($newCards->getMathCombinationsCards($cardcount - 1) as $collection){
+					$collection = new CardsCollection($collection->filter(function($iteratecard)use($card){
+						return $card->getSortPriority() < $iteratecard->getSortPriority();
 					}));
 					$collection->append($card);
-					if($collection->count()==$cardcount)
-						$result[]=$collection->values();
+					if($collection->count() == $cardcount)
+						$result[] = $collection->values();
 					}
 				}
 			
 			}
-		//$result=array_unique($result);
 		return $result;
-		//var_dump($cardcount);
-		//var_dump($result);
-		//die();
-        //return $this->cards ?? new CardsCollection([]);
     }
-	public function __toString(){
-		$spades=['Heart'=>'♥','Diamond'=>'♦','Club'=>'♣','Spade'=>'♠'];
-		$r='';
-		$ph=new PokerHelper;
-		foreach($this as $card){
-			$r.=$ph->getNamedPriority($card->getPriority()).$spades[$ph->getNamedSuit($card->getSuit())];
-		}
-		return $r;
-	}
 }
