@@ -9,7 +9,7 @@ use Pagrom\Poker\Exceptions\GameLogicException;
 use Pagrom\Poker\FakeCombinations\TwoSets;
 use Pagrom\Poker\Interfaces\CombinationInterface;
 
-class CombinationDeterminant
+class CombinationDeterminant implements CombinationDeterminantInterface
 {
     /**
      * @var CardsCollection
