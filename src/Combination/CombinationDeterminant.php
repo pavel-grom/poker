@@ -189,12 +189,15 @@ class CombinationDeterminant
         if (count($this->pairs) !== 2) {
             return null;
         }
+        
         $priorities = array_filter($this->priorities, function(int $priority) {
             return !in_array($priority, $this->pairs, true);
         });
         rsort($priorities);
+        
         $combinationPriorities = $this->pairs;
         $combinationPriorities[] = $priorities[0];
+        
         $combinationCards = $this->cards->getCardsByPriorities($combinationPriorities);
         $onlyCombinationCards = $this->cards->getCardsByPriorities($this->pairs);
 

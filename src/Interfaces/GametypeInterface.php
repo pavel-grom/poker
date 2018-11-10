@@ -13,12 +13,12 @@ interface GametypeInterface
     /**
      * @return int
      */
-	public function getCardcountTable():int;
-	
-	/**
+    public function getCardcountTable():int;
+    
+    /**
      * @return CombiationDeterminant
      */
-	public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null);
-	
+    public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null);
+    
     
 }

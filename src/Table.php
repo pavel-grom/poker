@@ -27,22 +27,22 @@ class Table implements HasCardsInterface
      */
     private $randomizer;
 
-	/**
+    /**
      * @var Gametype
      * */
-	private $gametype;
+    private $gametype;
     /**
      * Table constructor.
-	 * @param GametypeInterface $gametype Set of rules ex. Holdem or Omaha gametype class.
+     * @param GametypeInterface $gametype Set of rules ex. Holdem or Omaha gametype class.
      * @param callable|null $randomizer - function(int[] $cardsKeys): int
      */
-	 
+     
     public function __construct($gametype,?callable $randomizer = null)
     {
         $this->deckOfCards = new DeckOfCards($randomizer);
         $this->randomizer = $randomizer;
-		$this->gametype = $gametype;
-		$this->cardcount = $gametype->getCardcountTable();
+        $this->gametype = $gametype;
+        $this->cardcount = $gametype->getCardcountTable();
     }
 
     /**
@@ -50,7 +50,7 @@ class Table implements HasCardsInterface
      */
     public function addPlayer(PlayerInterface $player): void
     {
-		$player->cardcount = $this->gametype->getCardcountPlayer();
+        $player->cardcount = $this->gametype->getCardcountPlayer();
         $this->players[$player->getName()] = $player;
     }
 
@@ -147,7 +147,7 @@ class Table implements HasCardsInterface
     {
         return explode('|', $cardPattern);
     }
-	public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null){
-		return $this->gametype->getCombinationDeterminant($tableCards,$playerCards);
-	}
+    public function getCombinationDeterminant(CardsCollection $tableCards, ?CardsCollection $playerCards = null){
+        return $this->gametype->getCombinationDeterminant($tableCards,$playerCards);
+    }
 }

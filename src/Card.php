@@ -79,12 +79,12 @@ class Card
     {
         return $this->getPriority() . '|' . $this->getSuit();
     }
-	/**
-	 * returns int for sorting comparation
+    /**
+     * returns int for sorting comparation
      * @return int
      */
-	public function getSortPriority():int
-	{
-		return $this->getSuit()*100+$this->getPriority();	
-	}
+    public function getSortPriority():int
+    {
+        return $this->getSuit()*100+$this->getPriority();   
+    }
 }
