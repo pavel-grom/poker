@@ -266,8 +266,7 @@ class CombinationDeterminant implements CombinationDeterminantInterface
      */
     protected function checkStraight(bool $checkStraightFlush = false): ?Straight
     {
-        $cards = clone $this->cards;
-
+         $cards = clone $this->cards;
         if ($checkStraightFlush) {
             $suitsCounts = array_count_values($this->suites);
 
@@ -281,13 +280,11 @@ class CombinationDeterminant implements CombinationDeterminantInterface
             });
             $cards = new CardsCollection($cards);
         }
-
         if ($cards->count() < 5) {
             return null;
         }
 
         $unsetKeys = [];
-
         foreach ($cards as $key => $card) {
             if (isset($cards[$key+1])) {
                 if ($cards[$key]->getPriority() === $cards[$key+1]->getPriority()) {
@@ -295,14 +292,17 @@ class CombinationDeterminant implements CombinationDeterminantInterface
                 }
             }
         }
-
         $cards = $cards->filter(function(int $key) use ($unsetKeys) {
             return !in_array($key, $unsetKeys, true);
         }, ARRAY_FILTER_USE_KEY);
+        
+        
 
         $cards = (new CardsCollection($cards))->values();
+        if ($cards->count() < 5) {
+            return null;
+        }
         $count = $cards->count();
-
         if (
             isset($cards[$count-5])
             && $cards[$count-1]->getPriority() - $cards[$count-5]->getPriority() === 4
