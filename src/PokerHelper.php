@@ -2,8 +2,6 @@
 
 namespace Pagrom\Poker;
 
-
-use Pagrom\Poker\Combination\CombinationDeterminant;
 use Pagrom\Poker\Combination\WinnerDeterminant;
 use Pagrom\Poker\Exceptions\GameLogicException;
 use Pagrom\Poker\Interfaces\CombinationInterface;
@@ -321,17 +319,5 @@ class PokerHelper
         return array_map(function(string $pattern){
             return $this->getCardPatternByNamedPattern($pattern);
         }, $namedPatterns);
-    }
-
-    /**
-     * @param Table $table
-     */
-    public function determineCombinations(Table $table): void
-    {
-        foreach ($table->getPlayers() as $player) {
-            $playerCombinationDeterminant = $table->getCombinationDeterminant($table->getCards(), $player->getCards());
-            $combination = $playerCombinationDeterminant->getCombination();
-            $player->setCombination($combination);
-        }
     }
 }

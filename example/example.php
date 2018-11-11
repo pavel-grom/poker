@@ -1,7 +1,6 @@
 <?php
 
 use Pagrom\Poker\Card;
-use Pagrom\Poker\Combination\WinnerDeterminant;
 use Pagrom\Poker\Player;
 use Pagrom\Poker\PokerHelper;
 use Pagrom\Poker\Table;
@@ -23,15 +22,14 @@ function dd($wtf) {
 
 $pokerHelper = new PokerHelper();
 
-$table = new Table();
+$table = new Table(new \Pagrom\Poker\GameTypes\Omaha());
 
-$table->addPlayer(new Player('Dean'));
-$table->addPlayer(new Player('Sam'));
+$dean = new Player('Dean');
+$sam = new Player('Sam');
+
+$table->addPlayer($dean)->addPlayer($sam);
 
 // deal cards manually
-//$dean = $table->getPlayer('Dean');
-//$sam = $table->getPlayer('Sam');
-//
 //$table->dealCardsByPattern($dean, $pokerHelper->getCardPatternByNamedPatternArray([
 //    'A|Spade',
 //    '5|Diamond',
@@ -50,12 +48,10 @@ $table->addPlayer(new Player('Sam'));
 //    '4|Club',
 //]));
 
-$table->dealCards();
-
-$pokerHelper->determineCombinations($table);
-
-$winnerDeterminant = new WinnerDeterminant($table);
-$winners = $winnerDeterminant->getWinners();
+$winners = $table->dealCards()
+    ->determineCombinations()
+    ->determineWinners()
+    ->getWinners();
 
 foreach ($table->getPlayers() as $player) {
     $cards = $player->getCards()->map(function(Card $card) use ($pokerHelper) {
@@ -74,13 +70,5 @@ dump($tableCards);
 dump('Winners:');
 foreach ($winners as $winner) {
     dump($winner->getName());
-    dump($pokerHelper->getCombinationData($winner->getCombination(), $winnerDeterminant));
+    dump($pokerHelper->getCombinationData($winner->getCombination(), $table->getWinnerDeterminant()));
 }
-
-dump('Candidates:');
-foreach ($winnerDeterminant->getCandidates() as $candidate) {
-    dump($candidate->getName());
-    dump($pokerHelper->getCombinationData($candidate->getCombination(), $winnerDeterminant));
-}
-
-

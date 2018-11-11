@@ -58,11 +58,11 @@ class CombinationDeterminant implements CombinationDeterminantInterface
     protected  $combination;
 
     /**
-     * CombinationDeterminant constructor.
      * @param CardsCollection $tableCards
-     * @param CardsCollection $playerCards Optional.
+     * @param null|CardsCollection $playerCards
+     * @return CombinationInterface
      */
-    public function __construct(CardsCollection $tableCards, ?CardsCollection $playerCards = null)
+    public function getCombination(CardsCollection $tableCards, ?CardsCollection $playerCards = null): CombinationInterface
     {
         $this->tableCards = $tableCards;
 
@@ -78,15 +78,10 @@ class CombinationDeterminant implements CombinationDeterminantInterface
         });
 
         $this->getPrioritiesCounts();
-        $this->combination = $this->determineCombination();
-    }
 
-    /**
-     * @return CombinationInterface
-     */
-    public function getCombination(): CombinationInterface
-    {
-        return $this->combination;
+        $combination = $this->determineCombination();
+
+        return $combination;
     }
 
     /**
@@ -303,6 +298,10 @@ class CombinationDeterminant implements CombinationDeterminantInterface
         $cards = (new CardsCollection($cards))->values();
         $count = $cards->count();
 
+        if ($count < 5) {
+            return null;
+        }
+
         if (
             isset($cards[$count-5])
             && $cards[$count-1]->getPriority() - $cards[$count-5]->getPriority() === 4
@@ -463,6 +462,10 @@ class CombinationDeterminant implements CombinationDeterminantInterface
      */
     protected function getPrioritiesCounts(): void
     {
+        $this->pairs = [];
+        $this->sets = [];
+        $this->quads = [];
+
         $prioritiesCounts = array_count_values($this->priorities);
 
         foreach ($prioritiesCounts as $priority => $count) {

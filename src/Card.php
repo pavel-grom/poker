@@ -2,7 +2,6 @@
 
 namespace Pagrom\Poker;
 
-
 use Pagrom\Poker\Exceptions\GameLogicException;
 
 class Card
@@ -79,6 +78,7 @@ class Card
     {
         return $this->getPriority() . '|' . $this->getSuit();
     }
+
     /**
      * returns int for sorting comparation
      * @return int

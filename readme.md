@@ -1,7 +1,8 @@
 Poker
 =====
 
-A PHP-based Texas Hold'em Poker library capable of hand calculations, determine wining hand and preparing hands data.
+A PHP-based poker library capable of hand calculations, determine winning hand and preparing hands data.
+Supports Texas Hold'em and Omaha(by contribute of [Andrei Karepin](https://github.com/shiziksama)) game types.
 
 Install
 -------
@@ -19,21 +20,21 @@ use Pagrom\Poker\Combination\WinnerDeterminant;
 use Pagrom\Poker\Player;
 use Pagrom\Poker\PokerHelper;
 use Pagrom\Poker\Table;
-use Pagrom\Poker\Gametypes\Holdem;
+use Pagrom\Poker\GameTypes\Holdem;
 
-$pokerHelper = new PokerHelper(Holdem);
+$pokerHelper = new PokerHelper();
 
-$table = new Table();
+$table = new Table(new Holdem);
 
-$table->addPlayer(new Player('Dean'));
-$table->addPlayer(new Player('Sam'));
+$dean = new Player('Dean');
+$sam = new Player('Sam');
 
-$table->dealCards();
+$table->addPlayer($dean)->addPlayer($sam);
 
-$pokerHelper->determineCombinations($table);
-
-$winnerDeterminant = new WinnerDeterminant($table);
-$winners = $winnerDeterminant->getWinners();
+$winners = $table->dealCards()
+    ->determineCombinations()
+    ->determineWinners()
+    ->getWinners();
 ```
 
 Configuration
@@ -120,5 +121,5 @@ Get hand data
 -------------
 
 ```php
-$handData = $pokerHelper->getCombinationData($winner->getCombination(), $winnerDeterminant)
+$handData = $pokerHelper->getCombinationData($winner->getCombination(), $table->getWinnerDeterminant());
 ```

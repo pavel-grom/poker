@@ -342,33 +342,37 @@ class CardsCollection extends ArrayObject
     {
         return "{$priority}|{$suit}";
     }
+
     /**
-     * @param int $cardcount
+     * @param int $cardsCount
      * @return array of CardsCollection
      */
-    public function getMathCombinationsCards(int $cardcount): array
+    public function getMathCombinationsCards(int $cardsCount): array
     {
-        if($this->count() < $cardcount)return [$this];
+        if ($this->count() < $cardsCount) return [$this];
+
         $result = [];
+
         foreach($this as $index => $card){
-            if($cardcount == 1){
+            if($cardsCount === 1){
                 $newCards = new CardsCollection;
                 $newCards->append($card);
                 $result[] = $newCards;
-            }else{
+            } else {
                 $newCards = clone $this;
                 $newCards->removeCard($index);
-                foreach($newCards->getMathCombinationsCards($cardcount - 1) as $collection){
-                    $collection = new CardsCollection($collection->filter(function($iteratecard)use($card){
-                        return $card->getSortPriority() < $iteratecard->getSortPriority();
+                foreach ($newCards->getMathCombinationsCards($cardsCount - 1) as $collection){
+                    $collection = new CardsCollection($collection->filter(function(Card $iterateCard) use ($card) {
+                        return $card->getSortPriority() < $iterateCard->getSortPriority();
                     }));
                     $collection->append($card);
-                    if($collection->count() == $cardcount)
+                    if ($collection->count() === $cardsCount) {
                         $result[] = $collection->values();
                     }
                 }
-            
             }
+        }
+
         return $result;
     }
 }
