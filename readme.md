@@ -19,8 +19,9 @@ use Pagrom\Poker\Combination\WinnerDeterminant;
 use Pagrom\Poker\Player;
 use Pagrom\Poker\PokerHelper;
 use Pagrom\Poker\Table;
+use Pagrom\Poker\Gametypes\Holdem;
 
-$pokerHelper = new PokerHelper();
+$pokerHelper = new PokerHelper(Holdem);
 
 $table = new Table();
 
@@ -110,9 +111,9 @@ Custom randomizer for dealing cards
 ```php
 $randomizerCallback = function(array $cardsKeys): int {
     return $cardsKeys[array_rand($cardsKeys)];
-};
+}
 
-$table = new Table($randomizerCallback);
+$table = new Table(Holdem,$randomizerCallback);
 ```
 
 Get hand data

@@ -8,58 +8,59 @@ use Pagrom\Poker\CardsCollection;
 use Pagrom\Poker\Exceptions\GameLogicException;
 use Pagrom\Poker\FakeCombinations\TwoSets;
 use Pagrom\Poker\Interfaces\CombinationInterface;
+use Pagrom\Poker\Interfaces\CombinationDeterminantInterface;
 
-class CombinationDeterminant
+class CombinationDeterminant implements CombinationDeterminantInterface
 {
     /**
      * @var CardsCollection
      * */
-    private $tableCards;
+    protected  $tableCards;
 
     /**
      * @var CardsCollection
      * */
-    private $playerCards;
+    protected  $playerCards;
 
     /**
      * @var CardsCollection
      * */
-    private $cards;
+    protected  $cards;
 
     /**
      * @var int[]
      * */
-    private $priorities;
+    protected  $priorities;
 
     /**
      * @var int[]
      * */
-    private $suites;
+    protected  $suites;
 
     /**
      * @var array
      * */
-    private $pairs = [];
+    protected  $pairs = [];
 
     /**
      * @var array $sets
      * */
-    private $sets = [];
+    protected  $sets = [];
 
     /**
      * @var array
      * */
-    private $quads = [];
+    protected  $quads = [];
 
     /**
      * @var CombinationInterface
      * */
-    private $combination;
+    protected  $combination;
 
     /**
      * CombinationDeterminant constructor.
      * @param CardsCollection $tableCards
-     * @param CardsCollection $playerCards
+     * @param CardsCollection $playerCards Optional.
      */
     public function __construct(CardsCollection $tableCards, ?CardsCollection $playerCards = null)
     {
@@ -91,7 +92,7 @@ class CombinationDeterminant
     /**
      * @return CombinationInterface
      */
-    private function determineCombination(): CombinationInterface
+    protected function determineCombination(): CombinationInterface
     {
         if ($combination = $this->checkRoyalFlush()) {
             return $combination;
@@ -121,7 +122,7 @@ class CombinationDeterminant
     /**
      * @return HighCard
      */
-    private function checkHighCard(): HighCard
+    protected function checkHighCard(): HighCard
     {
         $smallerCardsCount = count($this->priorities) - 5;
 
@@ -153,7 +154,7 @@ class CombinationDeterminant
     /**
      * @return Pair|null
      */
-    private function checkPair(): ?Pair
+    protected function checkPair(): ?Pair
     {
         if (count($this->pairs) !== 1) {
             return null;
@@ -184,20 +185,20 @@ class CombinationDeterminant
     /**
      * @return TwoPairs|null
      */
-    private function checkTwoPairs(): ?TwoPairs
+    protected function checkTwoPairs(): ?TwoPairs
     {
         if (count($this->pairs) !== 2) {
             return null;
         }
-
+        
         $priorities = array_filter($this->priorities, function(int $priority) {
             return !in_array($priority, $this->pairs, true);
         });
         rsort($priorities);
-
+        
         $combinationPriorities = $this->pairs;
         $combinationPriorities[] = $priorities[0];
-
+        
         $combinationCards = $this->cards->getCardsByPriorities($combinationPriorities);
         $onlyCombinationCards = $this->cards->getCardsByPriorities($this->pairs);
 
@@ -207,7 +208,7 @@ class CombinationDeterminant
     /**
      * @return Set|null
      */
-    private function checkSet(): ?Set
+    protected function checkSet(): ?Set
     {
         $setsCount = count($this->sets);
 
@@ -236,7 +237,7 @@ class CombinationDeterminant
     /**
      * @return TwoSets|null
      */
-    private function checkTwoSets(): ?TwoSets
+    protected function checkTwoSets(): ?TwoSets
     {
         $setsCount = count($this->sets);
 
@@ -263,7 +264,7 @@ class CombinationDeterminant
      * @param bool $checkStraightFlush
      * @return null|Straight
      */
-    private function checkStraight(bool $checkStraightFlush = false): ?Straight
+    protected function checkStraight(bool $checkStraightFlush = false): ?Straight
     {
         $cards = clone $this->cards;
 
@@ -338,7 +339,7 @@ class CombinationDeterminant
     /**
      * @return Flush|null
      */
-    private function checkFlush(): ?Flush
+    protected function checkFlush(): ?Flush
     {
         $cards = clone $this->cards;
         $suitsCounts = array_count_values($this->suites);
@@ -370,7 +371,7 @@ class CombinationDeterminant
     /**
      * @return FullHouse|null
      */
-    private function checkFullHouse(): ?FullHouse
+    protected function checkFullHouse(): ?FullHouse
     {
         $set = $this->checkSet();
         $twoSets = $this->checkTwoSets();
@@ -400,7 +401,7 @@ class CombinationDeterminant
     /**
      * @return Quad|null
      */
-    private function checkQuad(): ?Quad
+    protected function checkQuad(): ?Quad
     {
         if (count($this->quads) !== 1) {
             return null;
@@ -425,7 +426,7 @@ class CombinationDeterminant
     /**
      * @return StraightFlush|null
      */
-    private function checkStraightFlush(): ?StraightFlush
+    protected function checkStraightFlush(): ?StraightFlush
     {
         if (!($straight = $this->checkStraight(true))) {
             return null;
@@ -440,7 +441,7 @@ class CombinationDeterminant
     /**
      * @return RoyalFlush|null
      */
-    private function checkRoyalFlush(): ?RoyalFlush
+    protected function checkRoyalFlush(): ?RoyalFlush
     {
         if (!$straightFlush = $this->checkStraightFlush()) {
             return null;
@@ -460,7 +461,7 @@ class CombinationDeterminant
     /**
      * Find multiple cards combinations(pairs, sets, quads)
      */
-    private function getPrioritiesCounts(): void
+    protected function getPrioritiesCounts(): void
     {
         $prioritiesCounts = array_count_values($this->priorities);
 

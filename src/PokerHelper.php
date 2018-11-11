@@ -329,7 +329,7 @@ class PokerHelper
     public function determineCombinations(Table $table): void
     {
         foreach ($table->getPlayers() as $player) {
-            $playerCombinationDeterminant = new CombinationDeterminant($table->getCards(), $player->getCards());
+            $playerCombinationDeterminant = $table->getCombinationDeterminant($table->getCards(), $player->getCards());
             $combination = $playerCombinationDeterminant->getCombination();
             $player->setCombination($combination);
         }
