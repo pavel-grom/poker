@@ -114,7 +114,7 @@ $randomizerCallback = function(array $cardsKeys): int {
     return $cardsKeys[array_rand($cardsKeys)];
 }
 
-$table = new Table(Holdem,$randomizerCallback);
+$table = new Table(new Holdem, $randomizerCallback);
 ```
 
 Get hand data
